@@ -16,7 +16,7 @@ export function BeforeAfter({ before, after }: BeforeAfterProps) {
   return (
     <div>
       <div
-        className="relative select-none overflow-hidden border border-line bg-paper-raised"
+        className="relative select-none overflow-hidden border border-line bg-surface"
         style={{ aspectRatio: `${before.width} / ${before.height}` }}
       >
         <Image
@@ -40,10 +40,10 @@ export function BeforeAfter({ before, after }: BeforeAfterProps) {
         </div>
 
         <div
-          className="pointer-events-none absolute inset-y-0 w-px bg-ink"
+          className="pointer-events-none absolute inset-y-0 w-px bg-orange"
           style={{ left: `${position}%` }}
         >
-          <span className="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center border border-ink bg-paper text-ink">
+          <span className="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center border border-orange bg-orange text-canvas">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
               <path
                 d="M9 7l-5 5 5 5M15 7l5 5-5 5"
@@ -56,10 +56,10 @@ export function BeforeAfter({ before, after }: BeforeAfterProps) {
           </span>
         </div>
 
-        <span className="pointer-events-none absolute left-3 top-3 bg-paper/90 px-2.5 py-1 text-xs">
+        <span className="pointer-events-none absolute left-3 top-3 bg-canvas/90 px-2.5 py-1 text-xs">
           До: {before.title}
         </span>
-        <span className="pointer-events-none absolute right-3 top-3 bg-paper/90 px-2.5 py-1 text-xs">
+        <span className="pointer-events-none absolute right-3 top-3 bg-canvas/90 px-2.5 py-1 text-xs">
           После: {after.title}
         </span>
 
@@ -74,7 +74,7 @@ export function BeforeAfter({ before, after }: BeforeAfterProps) {
           className="absolute inset-0 h-full w-full cursor-ew-resize opacity-0"
         />
       </div>
-      <p className="mt-3 text-xs text-ink-muted">
+      <p className="mt-3 text-xs text-fg-muted">
         Потяните ползунок, чтобы сравнить исходную планировку и результат.
       </p>
     </div>

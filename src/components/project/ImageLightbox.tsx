@@ -82,7 +82,7 @@ export function ImageLightbox({
           role="dialog"
           aria-modal="true"
           aria-label={item.title}
-          className="fixed inset-0 z-[100] flex flex-col bg-paper"
+          className="fixed inset-0 z-[100] flex flex-col bg-canvas"
           variants={modalBackdropVariants}
           initial="hidden"
           animate="visible"
@@ -92,11 +92,11 @@ export function ImageLightbox({
             <div className="min-w-0">
               <p className="truncate font-display text-lg sm:text-2xl">{item.title}</p>
               {item.caption && (
-                <p className="truncate text-xs text-ink-muted">{item.caption}</p>
+                <p className="truncate text-xs text-fg-muted">{item.caption}</p>
               )}
             </div>
             <div className="flex shrink-0 items-center gap-1">
-              <span className="mr-2 hidden text-xs text-ink-muted sm:inline">
+              <span className="mr-2 hidden text-xs text-fg-muted sm:inline">
                 {(index ?? 0) + 1} / {items.length}
               </span>
               <IconButton
@@ -120,7 +120,7 @@ export function ImageLightbox({
                 type="button"
                 onClick={onClose}
                 aria-label="Закрыть"
-                className="ml-1 flex h-10 w-10 items-center justify-center border border-line text-ink hover:border-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
+                className="ml-1 flex h-10 w-10 items-center justify-center border border-line text-fg hover:border-orange focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
                   <path
@@ -134,7 +134,7 @@ export function ImageLightbox({
             </div>
           </div>
 
-          <div className="relative min-h-0 flex-1 bg-paper-sunken">
+          <div className="relative min-h-0 flex-1 bg-sunken">
             <div
               ref={scrollerRef}
               data-lenis-prevent
@@ -156,7 +156,7 @@ export function ImageLightbox({
                   onClick={() =>
                     setZoomIdx((z) => (z + 1) % ZOOM_LEVELS.length)
                   }
-                  className={`h-auto bg-paper-raised shadow-sm ${
+                  className={`h-auto bg-surface shadow-sm ${
                     zoom === 1
                       ? "max-h-[calc(100dvh-9rem)] w-auto max-w-full cursor-zoom-in object-contain"
                       : "w-full cursor-zoom-out"
@@ -196,7 +196,7 @@ function IconButton({
       aria-label={label}
       disabled={disabled}
       onClick={onClick}
-      className="flex h-10 w-10 items-center justify-center border border-line text-ink hover:border-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive disabled:opacity-30 disabled:hover:border-line"
+      className="flex h-10 w-10 items-center justify-center border border-line text-fg hover:border-orange focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange disabled:opacity-30 disabled:hover:border-line"
     >
       <svg
         width="18"
@@ -226,7 +226,7 @@ function NavArrow({
       type="button"
       onClick={onClick}
       aria-label={side === "left" ? "Предыдущее" : "Следующее"}
-      className={`absolute top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center border border-line bg-paper/90 text-ink backdrop-blur hover:border-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive ${
+      className={`absolute top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center border border-line bg-canvas/90 text-fg backdrop-blur hover:border-orange focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange ${
         side === "left" ? "left-3" : "right-3"
       }`}
     >

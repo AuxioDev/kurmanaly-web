@@ -41,10 +41,10 @@ export function InquiryForm({ defaultPackage = "unsure" }: { defaultPackage?: st
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         role="status"
-        className="border border-olive bg-olive-soft p-8"
+        className="border border-orange bg-orange/10 p-8"
       >
         <p className="font-display text-2xl">Заявка получена</p>
-        <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+        <p className="mt-2 text-sm leading-relaxed text-fg-soft">
           Спасибо! Я отвечу в течение двух рабочих дней и предложу время для
           короткого созвона.
         </p>
@@ -98,8 +98,8 @@ export function InquiryForm({ defaultPackage = "unsure" }: { defaultPackage?: st
         <input id="website" name="website" tabIndex={-1} autoComplete="off" />
       </div>
 
-      <label className="flex items-start gap-3 text-sm text-ink-soft">
-        <input type="checkbox" name="consent" required className="mt-1 h-4 w-4 accent-olive-deep" />
+      <label className="flex items-start gap-3 text-sm text-fg-soft">
+        <input type="checkbox" name="consent" required className="mt-1 h-4 w-4 accent-red" />
         <span>Согласен(на) на обработку персональных данных для связи по проекту.</span>
       </label>
 
@@ -121,7 +121,7 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={htmlFor} className="block text-sm text-ink-soft">
+      <label htmlFor={htmlFor} className="block text-sm text-fg-soft">
         {label}
       </label>
       {children}

@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    color-scheme: dark;
+  }
+
   html.lenis,
   html.lenis body {
     height: auto;
@@ -27,7 +31,7 @@
   }
 
   body {
-    @apply bg-paper font-body text-ink antialiased;
+    @apply bg-canvas font-body text-fg antialiased;
   }
 
   h1,
@@ -37,7 +41,7 @@
   }
 
   ::selection {
-    @apply bg-olive text-paper;
+    @apply bg-orange text-canvas;
   }
 }
 
@@ -46,19 +50,38 @@
     @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
   }
 
+  /* Метка раздела: оранжевая, с короткой градиентной линией */
   .eyebrow {
-    @apply text-xs font-medium uppercase tracking-[0.18em] text-ink-muted;
+    @apply flex items-center gap-3 text-xs font-medium uppercase tracking-[0.18em] text-orange;
+  }
+
+  .eyebrow::before {
+    content: "";
+    @apply h-px w-8 bg-gradient-to-r from-red to-orange;
+  }
+
+  /* Подпись данных: спокойная, без акцента */
+  .label {
+    @apply text-xs font-medium uppercase tracking-[0.18em] text-fg-muted;
+  }
+
+  .text-gradient {
+    @apply inline-block bg-gradient-to-r from-red to-orange bg-clip-text pb-[0.08em] text-transparent;
+  }
+
+  .rule-gradient {
+    @apply h-px bg-gradient-to-r from-red via-orange to-transparent;
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-none border border-ink bg-ink px-7 py-3.5 text-sm font-medium text-paper transition-colors hover:bg-olive-deep hover:border-olive-deep focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive disabled:opacity-60;
+    @apply inline-flex items-center justify-center rounded-none border border-red-deep bg-red-deep px-7 py-3.5 text-sm font-medium text-white transition-colors hover:border-orange hover:bg-orange hover:text-canvas focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange disabled:opacity-60;
   }
 
   .btn-outline {
-    @apply inline-flex items-center justify-center rounded-none border border-ink px-7 py-3.5 text-sm font-medium text-ink transition-colors hover:bg-ink hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive;
+    @apply inline-flex items-center justify-center rounded-none border border-fg/40 px-7 py-3.5 text-sm font-medium text-fg transition-colors hover:border-orange hover:text-orange focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange;
   }
 
   .field {
-    @apply mt-1.5 w-full rounded-none border border-line bg-paper-raised px-4 py-3 text-ink placeholder:text-ink-muted/60 focus:border-ink focus:outline-none;
+    @apply mt-1.5 w-full rounded-none border border-line bg-surface px-4 py-3 text-fg placeholder:text-fg-muted/60 focus:border-orange focus:outline-none;
   }
 }

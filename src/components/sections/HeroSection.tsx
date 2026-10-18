@@ -14,11 +14,11 @@ export function HeroSection({ featured }: { featured: Project }) {
             <br />
             от идеи
             <br />
-            до чертежа
+            <span className="text-gradient">до чертежа</span>
           </h1>
         </div>
         <div className="max-w-md lg:pb-3">
-          <p className="leading-relaxed text-ink-soft">
+          <p className="leading-relaxed text-fg-soft">
             {siteConfig.designer}. Сначала мудборд, потом чертежи, затем
             визуализация. Вы видите весь путь проекта и понимаете, как он
             станет реальностью.
@@ -36,7 +36,7 @@ export function HeroSection({ featured }: { featured: Project }) {
 
       <Link
         href={`/projects/${featured.slug}`}
-        className="group relative mt-14 block overflow-hidden bg-paper-sunken focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-olive"
+        className="group relative mt-14 block overflow-hidden bg-sunken focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange"
       >
         <div className="relative aspect-[16/9] sm:aspect-[21/9]">
           <Image

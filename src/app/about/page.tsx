@@ -33,11 +33,11 @@ export default function AboutPage() {
           {/* TODO: заменить блок на портретное фото */}
           <div
             aria-hidden
-            className="flex aspect-[4/5] items-center justify-center border border-line bg-paper-sunken text-sm text-ink-muted"
+            className="flex aspect-[4/5] items-center justify-center border border-line bg-sunken text-sm text-fg-muted"
           >
             Здесь будет портрет
           </div>
-          <div className="max-w-xl space-y-5 leading-relaxed text-ink-soft">
+          <div className="max-w-xl space-y-5 leading-relaxed text-fg-soft">
             {/* TODO: заменить на реальный текст от Малики */}
             <p>
               Я дизайнер интерьеров из Бишкека. Работаю с квартирами и домами в
@@ -56,9 +56,9 @@ export default function AboutPage() {
         <h2 className="text-4xl sm:text-5xl">Принципы работы</h2>
         <ul className="mt-10 grid gap-px bg-line md:grid-cols-3">
           {principles.map((p) => (
-            <li key={p.title} className="bg-paper p-6 sm:p-8">
+            <li key={p.title} className="bg-canvas p-6 sm:p-8">
               <h3 className="text-2xl sm:text-3xl">{p.title}</h3>
-              <p className="mt-3 leading-relaxed text-ink-soft">{p.text}</p>
+              <p className="mt-3 leading-relaxed text-fg-soft">{p.text}</p>
             </li>
           ))}
         </ul>

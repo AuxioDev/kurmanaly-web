@@ -11,9 +11,9 @@ export function ProjectCard({ project, priority }: ProjectCardProps) {
   return (
     <Link
       href={`/projects/${project.slug}`}
-      className="group block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-olive"
+      className="group block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange"
     >
-      <div className="relative aspect-[16/10] overflow-hidden bg-paper-sunken">
+      <div className="relative aspect-[16/10] overflow-hidden bg-sunken">
         <Image
           src={project.cover.src}
           alt={project.cover.alt}
@@ -26,11 +26,11 @@ export function ProjectCard({ project, priority }: ProjectCardProps) {
       <div className="mt-4 flex items-start justify-between gap-4">
         <div>
           <h3 className="font-display text-2xl sm:text-3xl">{project.title}</h3>
-          <p className="mt-1 text-sm text-ink-muted">
+          <p className="mt-1 text-sm text-fg-muted">
             {project.city} · {project.area} м² · {project.year}
           </p>
         </div>
-        <span className="mt-1 text-xs uppercase tracking-[0.14em] text-ink-muted transition-colors group-hover:text-ink">
+        <span className="mt-1 text-xs uppercase tracking-[0.14em] text-fg-muted transition-colors group-hover:text-fg">
           {project.style}
         </span>
       </div>

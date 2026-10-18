@@ -46,33 +46,33 @@ export default function ProjectPage({ params }: PageProps) {
         <header className="container-page pt-10 sm:pt-16">
           <Link
             href="/projects"
-            className="text-sm text-ink-muted hover:text-ink"
+            className="text-sm text-fg-muted hover:text-fg"
           >
             ← Все проекты
           </Link>
           <h1 className="mt-6 text-5xl leading-[1.02] sm:text-7xl">{project.title}</h1>
 
           <div className="mt-10 grid gap-10 lg:grid-cols-[1.4fr_1fr]">
-            <p className="max-w-2xl text-lg leading-relaxed text-ink-soft">
+            <p className="max-w-2xl text-lg leading-relaxed text-fg-soft">
               {project.summary}
             </p>
             <dl className="grid grid-cols-2 gap-x-6 gap-y-4 border-t border-line pt-6 text-sm lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
               {facts.map((f) => (
                 <div key={f.label}>
-                  <dt className="eyebrow">{f.label}</dt>
+                  <dt className="label">{f.label}</dt>
                   <dd className="mt-1">{f.value}</dd>
                 </div>
               ))}
               {project.credits.map((c) => (
                 <div key={c.role} className="col-span-2">
-                  <dt className="eyebrow">{c.role}</dt>
+                  <dt className="label">{c.role}</dt>
                   <dd className="mt-1">{c.name}</dd>
                 </div>
               ))}
             </dl>
           </div>
 
-          <div className="relative mt-12 aspect-[16/9] overflow-hidden bg-paper-sunken sm:aspect-[21/9]">
+          <div className="relative mt-12 aspect-[16/9] overflow-hidden bg-sunken sm:aspect-[21/9]">
             <Image
               src={project.cover.src}
               alt={project.cover.alt}

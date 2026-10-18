@@ -9,24 +9,28 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        paper: {
-          DEFAULT: "#F6F4EF",
-          raised: "#FFFFFF",
-          sunken: "#EDEAE2",
-        },
-        ink: {
-          DEFAULT: "#151515",
-          soft: "#3A3833",
-          muted: "#6B675F",
+        canvas: "#0B0908",
+        surface: "#171210",
+        sunken: "#110D0B",
+        fg: {
+          DEFAULT: "#F5EFE9",
+          soft: "#D4CAC1",
+          muted: "#A39789",
         },
         line: {
-          DEFAULT: "#D9D5CC",
-          strong: "#151515",
+          DEFAULT: "#2E2623",
+          strong: "#4A3F3A",
         },
-        olive: {
-          DEFAULT: "#6F7352",
-          deep: "#4F533A",
-          soft: "#E4E5D8",
+        // красный: цвет действия (кнопки, активные состояния)
+        red: {
+          DEFAULT: "#E5392B",
+          deep: "#D7301F",
+          dark: "#9E1F14",
+        },
+        // оранжевый: акцент и сигнал (метки, цифры, наведение, фокус)
+        orange: {
+          DEFAULT: "#FF7A1A",
+          soft: "#FF9A4D",
         },
       },
       fontFamily: {

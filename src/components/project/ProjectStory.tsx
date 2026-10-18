@@ -19,16 +19,16 @@ export function ProjectStory({ project }: { project: Project }) {
     <div>
       <nav
         aria-label="Разделы проекта"
-        className="sticky top-14 z-30 border-y border-line bg-paper/90 backdrop-blur-md sm:top-16"
+        className="sticky top-14 z-30 border-y border-line bg-canvas/90 backdrop-blur-md sm:top-16"
       >
         <ol className="container-page flex gap-6 overflow-x-auto py-3 text-sm">
           {steps.map((step, i) => (
             <li key={step.id} className="shrink-0">
               <a
                 href={`#${step.id}`}
-                className="text-ink-muted transition-colors hover:text-ink"
+                className="text-fg-muted transition-colors hover:text-fg"
               >
-                <span className="mr-2 text-xs">0{i + 1}</span>
+                <span className="mr-2 text-xs text-orange">0{i + 1}</span>
                 {step.label}
               </a>
             </li>
@@ -59,7 +59,7 @@ function SectionHeading({
       <div id={id} className="scroll-mt-32 max-w-2xl">
         <p className="eyebrow">{number}</p>
         <h2 className="mt-2 text-4xl sm:text-5xl">{title}</h2>
-        <p className="mt-4 leading-relaxed text-ink-soft">{lead}</p>
+        <p className="mt-4 leading-relaxed text-fg-soft">{lead}</p>
       </div>
     </RevealItem>
   );
@@ -86,7 +86,7 @@ function MoodboardSection({ project, number }: { project: Project; number: strin
             key={m.src}
             type="button"
             onClick={() => setOpen(i)}
-            className="mb-4 block w-full break-inside-avoid focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
+            className="mb-4 block w-full break-inside-avoid focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange"
           >
             <Image
               src={m.src}
@@ -125,7 +125,7 @@ function DrawingsSection({ project, number }: { project: Project; number: string
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <SectionReveal className="border-t border-line bg-paper-sunken py-16 sm:py-24">
+    <SectionReveal className="border-t border-line bg-sunken py-16 sm:py-24">
       <div className="container-page">
         <SectionHeading
           id="drawings"
@@ -151,9 +151,9 @@ function DrawingsSection({ project, number }: { project: Project; number: string
               <button
                 type="button"
                 onClick={() => setOpen(i)}
-                className="group block w-full text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive"
+                className="group block w-full text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange"
               >
-                <span className="relative block aspect-[1.414/1] overflow-hidden border border-line bg-paper-raised transition-colors group-hover:border-ink">
+                <span className="relative block aspect-[1.414/1] overflow-hidden border border-line bg-surface transition-colors group-hover:border-orange">
                   <Image
                     src={d.src}
                     alt={d.alt}
@@ -162,7 +162,7 @@ function DrawingsSection({ project, number }: { project: Project; number: string
                     className="object-contain"
                   />
                 </span>
-                <span className="mt-2 block text-xs text-ink-muted">{d.caption}</span>
+                <span className="mt-2 block text-xs text-fg-muted">{d.caption}</span>
                 <span className="block text-sm">{d.title}</span>
               </button>
             </li>
@@ -217,7 +217,7 @@ function RendersSection({ project, number }: { project: Project; number: string 
                     key={r.src}
                     type="button"
                     onClick={() => setOpen(i)}
-                    className="group mb-4 block w-full break-inside-avoid overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
+                    className="group mb-4 block w-full break-inside-avoid overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange"
                   >
                     <Image
                       src={r.src}

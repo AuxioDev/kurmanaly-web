@@ -39,7 +39,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#F6F4EF",
+  themeColor: "#0B0908",
 };
 
 export default function RootLayout({
@@ -50,7 +50,7 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body
-        className={`${display.variable} ${body.variable} min-h-screen bg-paper text-ink`}
+        className={`${display.variable} ${body.variable} min-h-screen bg-canvas text-fg`}
       >
         <SmoothScrollProvider>
           <Header />

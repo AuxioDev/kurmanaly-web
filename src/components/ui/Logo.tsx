@@ -7,7 +7,7 @@ export function Logo({ className = "" }: { className?: string }) {
     <Link
       href="/"
       aria-label={`${siteConfig.name} — на главную`}
-      className={`flex items-center gap-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-olive ${className}`}
+      className={`flex items-center gap-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange ${className}`}
     >
       <Image
         src="/logo.webp"
@@ -15,11 +15,11 @@ export function Logo({ className = "" }: { className?: string }) {
         width={291}
         height={139}
         priority
-        className="h-8 w-auto mix-blend-multiply sm:h-9"
+        className="h-8 w-auto invert mix-blend-screen sm:h-9"
       />
       <span className="hidden font-display text-xl tracking-tight sm:inline">
         {siteConfig.name}
-        <span className="text-ink-muted">.com</span>
+        <span className="text-fg-muted">.com</span>
       </span>
     </Link>
   );

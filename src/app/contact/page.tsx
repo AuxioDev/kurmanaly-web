@@ -26,7 +26,7 @@ export default function ContactPage({
 
       <div className="mt-12 grid gap-14 lg:grid-cols-[1.3fr_1fr]">
         <div>
-          <p className="mb-8 max-w-xl leading-relaxed text-ink-soft">
+          <p className="mb-8 max-w-xl leading-relaxed text-fg-soft">
             Опишите объект и задачу. Я отвечу в течение двух рабочих дней и
             предложу время для короткого созвона.
           </p>
@@ -37,35 +37,35 @@ export default function ContactPage({
           <h2 className="text-2xl sm:text-3xl">Написать напрямую</h2>
           <ul className="mt-6 space-y-4 text-sm">
             <li>
-              <p className="eyebrow">Email</p>
-              <a href={`mailto:${contacts.email}`} className="mt-1 block hover:text-olive-deep">
+              <p className="label">Email</p>
+              <a href={`mailto:${contacts.email}`} className="mt-1 block hover:text-orange">
                 {contacts.email}
               </a>
             </li>
             <li>
-              <p className="eyebrow">Telegram</p>
+              <p className="label">Telegram</p>
               <a
                 href={contacts.telegram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-1 block hover:text-olive-deep"
+                className="mt-1 block hover:text-orange"
               >
                 {contacts.telegram.replace("https://t.me/", "@")}
               </a>
             </li>
             <li>
-              <p className="eyebrow">Instagram</p>
+              <p className="label">Instagram</p>
               <a
                 href={contacts.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-1 block hover:text-olive-deep"
+                className="mt-1 block hover:text-orange"
               >
                 {contacts.instagram.replace("https://instagram.com/", "@")}
               </a>
             </li>
             <li>
-              <p className="eyebrow">Где работаю</p>
+              <p className="label">Где работаю</p>
               <p className="mt-1">{siteConfig.base}, проекты по всему СНГ дистанционно</p>
             </li>
           </ul>

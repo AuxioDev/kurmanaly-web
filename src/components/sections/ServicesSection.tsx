@@ -19,24 +19,24 @@ export function ServicesSection({ showHeading = true }: { showHeading?: boolean 
           <li key={pkg.id}>
             <RevealItem className="h-full">
               <article
-                className={`flex h-full flex-col border p-6 sm:p-8 ${
+                className={`relative flex h-full flex-col border p-6 sm:p-8 ${
                   pkg.highlighted
-                    ? "border-ink bg-paper-raised"
+                    ? "border-red-deep bg-surface"
                     : "border-line"
                 }`}
               >
                 {pkg.highlighted && (
-                  <p className="mb-4 w-fit bg-olive px-2.5 py-1 text-xs text-paper">
+                  <p className="absolute left-6 top-0 -translate-y-1/2 bg-red-deep px-2.5 py-1 text-xs text-white sm:left-8">
                     Самый полный
                   </p>
                 )}
                 <h3 className="text-2xl sm:text-3xl">{pkg.name}</h3>
-                <p className="mt-2 text-sm text-ink-muted">{pkg.tagline}</p>
+                <p className="mt-2 text-sm text-fg-muted">{pkg.tagline}</p>
 
                 <ul className="mt-6 flex-1 space-y-2.5 text-sm">
                   {pkg.includes.map((item) => (
                     <li key={item} className="flex gap-3">
-                      <span aria-hidden className="mt-2 h-px w-4 shrink-0 bg-olive" />
+                      <span aria-hidden className="mt-2 h-px w-4 shrink-0 bg-gradient-to-r from-red to-orange" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -44,11 +44,11 @@ export function ServicesSection({ showHeading = true }: { showHeading?: boolean 
 
                 <dl className="mt-8 space-y-1 border-t border-line pt-4 text-sm">
                   <div className="flex justify-between gap-4">
-                    <dt className="text-ink-muted">Срок</dt>
+                    <dt className="text-fg-muted">Срок</dt>
                     <dd>{pkg.duration}</dd>
                   </div>
                   <div className="flex justify-between gap-4">
-                    <dt className="text-ink-muted">Стоимость</dt>
+                    <dt className="text-fg-muted">Стоимость</dt>
                     <dd className="text-right">{pkg.priceNote}</dd>
                   </div>
                 </dl>

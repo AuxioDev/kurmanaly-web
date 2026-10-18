@@ -16,7 +16,7 @@ export function Header() {
       initial={{ y: -16, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className={`fixed inset-x-0 top-0 z-50 border-b bg-paper/85 backdrop-blur-md transition-colors ${
+      className={`fixed inset-x-0 top-0 z-50 border-b bg-canvas/85 backdrop-blur-md transition-colors ${
         isCompact ? "border-line" : "border-transparent"
       }`}
     >
@@ -35,15 +35,15 @@ export function Header() {
                 key={link.href}
                 href={link.href}
                 aria-current={active ? "page" : undefined}
-                className={`relative py-1 text-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-olive ${
-                  active ? "text-ink" : "text-ink-muted hover:text-ink"
+                className={`relative py-1 text-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange ${
+                  active ? "text-fg" : "text-fg-muted hover:text-fg"
                 }`}
               >
                 {link.label}
                 {active && (
                   <motion.span
                     layoutId="nav-underline"
-                    className="absolute inset-x-0 -bottom-0.5 h-px bg-ink"
+                    className="absolute inset-x-0 -bottom-0.5 h-px bg-gradient-to-r from-red to-orange"
                     transition={{ type: "spring", stiffness: 420, damping: 34 }}
                   />
                 )}

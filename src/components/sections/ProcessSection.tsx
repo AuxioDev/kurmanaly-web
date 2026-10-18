@@ -3,7 +3,7 @@ import { processSteps } from "@/data/services";
 
 export function ProcessSection({ className = "" }: { className?: string }) {
   return (
-    <SectionReveal className={`border-y border-line bg-paper-sunken py-16 sm:py-24 ${className}`}>
+    <SectionReveal className={`border-y border-line bg-sunken py-16 sm:py-24 ${className}`}>
       <div className="container-page">
         <RevealItem>
           <p className="eyebrow">Как я работаю</p>
@@ -14,12 +14,12 @@ export function ProcessSection({ className = "" }: { className?: string }) {
 
         <ol className="mt-12 grid gap-px bg-line md:grid-cols-3">
           {processSteps.map((step, i) => (
-            <li key={step.id} className="bg-paper-sunken">
+            <li key={step.id} className="bg-sunken">
               <RevealItem className="h-full">
                 <div className="flex h-full flex-col p-6 sm:p-8 md:pr-10">
-                  <span className="font-display text-5xl text-olive">0{i + 1}</span>
+                  <span className="font-display text-5xl text-gradient">0{i + 1}</span>
                   <h3 className="mt-6 text-2xl sm:text-3xl">{step.title}</h3>
-                  <p className="mt-3 leading-relaxed text-ink-soft">{step.description}</p>
+                  <p className="mt-3 leading-relaxed text-fg-soft">{step.description}</p>
                 </div>
               </RevealItem>
             </li>
