@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    @apply font-body antialiased;
+  }
+
+  .dark body {
+    @apply bg-surface text-zinc-100;
+  }
+
+  .light body {
+    @apply bg-[#f5f0f8] text-zinc-900;
+  }
+
+  .light .dark\:bg-surface\/80 {
+    background-color: rgb(245 240 248 / 0.85);
+  }
+
+  .light header,
+  .light footer {
+    @apply border-zinc-200/80;
+  }
+
+  .light .text-zinc-100 {
+    @apply text-zinc-900;
+  }
+
+  .light .text-zinc-400,
+  .light .text-zinc-500 {
+    @apply text-zinc-600;
+  }
+
+  .light .border-white\/5,
+  .light .border-white\/10 {
+    @apply border-zinc-300/60;
+  }
+
+  .light .bg-surface-raised,
+  .light .bg-surface-overlay {
+    @apply bg-white;
+  }
+}
