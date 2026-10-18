@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useInView, useReducedMotion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { sectionChildVariants, sectionRevealVariants } from "@/lib/motion";
 
@@ -11,6 +11,12 @@ interface SectionRevealProps {
   as?: "section" | "div";
 }
 
+/*
+ * Настройку «уменьшить движение» учитывает MotionConfig (см. MotionProvider): он отключает
+ * смещения, а прозрачность оставляет. Здесь нельзя ветвить разметку по useReducedMotion():
+ * сервер рендерит скрытое состояние, и при другом элементе на клиенте стили opacity:0
+ * остаются в DOM навсегда (контент невидим).
+ */
 export function SectionReveal({
   children,
   className = "",
@@ -18,20 +24,20 @@ export function SectionReveal({
   as = "section",
 }: SectionRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const reduceMotion = useReducedMotion();
+  // amount: "some" — секция проявляется, как только её верхний край входит в экран.
+  // Доля высоты (раньше 15%) не годится для очень высоких секций: они оставались невидимыми.
   const isInView = useInView(ref, {
     once: true,
-    margin: "-8% 0px -8% 0px",
-    amount: 0.15,
+    margin: "0px 0px -8% 0px",
+    amount: "some",
   });
 
-  const animateState = reduceMotion || isInView ? "visible" : "hidden";
   const shared = {
     ref,
     id,
     className,
-    initial: reduceMotion ? false : ("hidden" as const),
-    animate: animateState,
+    initial: "hidden" as const,
+    animate: isInView ? "visible" : "hidden",
     variants: sectionRevealVariants,
   };
 
@@ -49,12 +55,6 @@ export function RevealItem({
   children: React.ReactNode;
   className?: string;
 }) {
-  const reduceMotion = useReducedMotion();
-
-  if (reduceMotion) {
-    return <div className={className}>{children}</div>;
-  }
-
   return (
     <motion.div className={className} variants={sectionChildVariants}>
       {children}

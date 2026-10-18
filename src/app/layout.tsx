@@ -54,6 +54,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru">
+      <head>
+        {/* Без JS картинки не должны оставаться прозрачными */}
+        <noscript>
+          <style>{`[data-fade]{opacity:1!important}`}</style>
+        </noscript>
+      </head>
       <body
         className={`${display.variable} ${body.variable} min-h-screen bg-canvas text-fg`}
       >

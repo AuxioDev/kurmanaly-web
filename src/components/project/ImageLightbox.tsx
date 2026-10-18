@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { FadeImage } from "@/components/motion/FadeImage";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -165,7 +165,7 @@ export function ImageLightbox({
                   transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
                   className="flex w-full justify-center"
                 >
-                <Image
+                <FadeImage
                   src={item.src}
                   alt={item.alt}
                   width={item.width}

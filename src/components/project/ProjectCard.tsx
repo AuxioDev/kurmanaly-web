@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import { FadeImage } from "@/components/motion/FadeImage";
 import type { Project } from "@/lib/types";
 
 interface ProjectCardProps {
@@ -13,15 +13,17 @@ export function ProjectCard({ project, priority }: ProjectCardProps) {
       href={`/projects/${project.slug}`}
       className="group block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange"
     >
-      <div className="card-glow relative aspect-[16/10] overflow-hidden bg-sunken">
-        <Image
-          src={project.cover.src}
-          alt={project.cover.alt}
-          fill
-          priority={priority}
-          sizes="(min-width: 1024px) 50vw, 100vw"
-          className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.05]"
-        />
+      <div className="card-glow skeleton relative aspect-[16/10] overflow-hidden">
+        <div className="absolute inset-0 transition-transform duration-[900ms] ease-out group-hover:scale-[1.05]">
+          <FadeImage
+            src={project.cover.src}
+            alt={project.cover.alt}
+            fill
+            priority={priority}
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            className="object-cover"
+          />
+        </div>
         <div
           aria-hidden
           className="absolute inset-0 bg-gradient-to-t from-red/50 via-orange/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"

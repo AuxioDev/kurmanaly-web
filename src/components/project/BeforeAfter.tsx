@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { useId, useState } from "react";
+import { FadeImage } from "@/components/motion/FadeImage";
 import type { Drawing } from "@/lib/types";
 
 interface BeforeAfterProps {
@@ -16,10 +16,10 @@ export function BeforeAfter({ before, after }: BeforeAfterProps) {
   return (
     <div>
       <div
-        className="relative select-none overflow-hidden border border-line bg-surface"
+        className="skeleton relative select-none overflow-hidden border border-line"
         style={{ aspectRatio: `${before.width} / ${before.height}` }}
       >
-        <Image
+        <FadeImage
           src={after.src}
           alt={after.alt}
           fill
@@ -30,7 +30,7 @@ export function BeforeAfter({ before, after }: BeforeAfterProps) {
           className="absolute inset-0"
           style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}
         >
-          <Image
+          <FadeImage
             src={before.src}
             alt={before.alt}
             fill

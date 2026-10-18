@@ -52,6 +52,10 @@ const config: Config = {
           "0%, 100%": { transform: "translate3d(0, 0, 0) scale(1.05)" },
           "50%": { transform: "translate3d(-8%, 6%, 0) scale(0.95)" },
         },
+        shimmer: {
+          from: { backgroundPosition: "200% 0" },
+          to: { backgroundPosition: "-200% 0" },
+        },
         "page-in": {
           from: { opacity: "0", transform: "translateY(14px)" },
           to: { opacity: "1", transform: "none" },
@@ -61,6 +65,7 @@ const config: Config = {
         gradient: "gradient-x 9s ease-in-out infinite",
         "float-a": "float-a 20s ease-in-out infinite",
         "float-b": "float-b 26s ease-in-out infinite",
+        shimmer: "shimmer 2.2s linear infinite",
         "page-in": "page-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards",
       },
     },

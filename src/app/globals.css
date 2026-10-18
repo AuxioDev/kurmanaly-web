@@ -204,6 +204,18 @@
     min-height: 2.75rem;
   }
 
+  /* Скелетон: мягкий «бегущий» градиент, пока картинка грузится (гасится в FadeImage) */
+  .skeleton {
+    @apply animate-shimmer bg-sunken;
+    background-image: linear-gradient(100deg, #110d0b 30%, #1f1815 50%, #110d0b 70%);
+    background-size: 200% 100%;
+  }
+
+  .skeleton[data-loaded="true"] {
+    animation: none;
+    background-image: none;
+  }
+
   /* Ссылки с комфортной зоной нажатия (44 px) */
   .tap {
     @apply inline-flex min-h-11 min-w-11 items-center;

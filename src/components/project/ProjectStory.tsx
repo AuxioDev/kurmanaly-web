@@ -1,13 +1,16 @@
 "use client";
 
-import Image from "next/image";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
+import { FadeImage } from "@/components/motion/FadeImage";
 import { RevealItem, SectionReveal } from "@/components/motion/SectionReveal";
 import { BeforeAfter } from "@/components/project/BeforeAfter";
 import { ImageLightbox, type LightboxItem } from "@/components/project/ImageLightbox";
 import { luxuryEase } from "@/lib/motion";
 import type { Project } from "@/lib/types";
+
+/** Сколько листов чертежей показываем до нажатия «Показать все» (два ровных ряда по 4) */
+const INITIAL_SHEETS = 8;
 
 /** Каскадное появление элементов галереи при попадании в экран */
 const reveal = (i: number) => ({
@@ -97,9 +100,10 @@ function MoodboardSection({ project, number }: { project: Project; number: strin
             type="button"
             onClick={() => setOpen(i)}
             {...reveal(i)}
-            className="mb-4 block w-full break-inside-avoid focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange"
+            style={{ aspectRatio: `${m.width} / ${m.height}` }}
+            className="skeleton mb-4 block w-full break-inside-avoid focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange"
           >
-            <Image
+            <FadeImage
               src={m.src}
               alt={m.alt}
               width={m.width}
@@ -134,9 +138,21 @@ function DrawingsSection({ project, number }: { project: Project; number: string
     [project.drawings],
   );
   const [open, setOpen] = useState<number | null>(null);
+  const [expanded, setExpanded] = useState(false);
+
+  const collapsible = items.length > INITIAL_SHEETS;
+  const visible = expanded || !collapsible ? items : items.slice(0, INITIAL_SHEETS);
+
+  function toggle() {
+    if (expanded) {
+      // После сворачивания возвращаем читателя к началу раздела, чтобы страница не «прыгала»
+      document.getElementById("drawings")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    setExpanded((v) => !v);
+  }
 
   return (
-    <SectionReveal className="border-t border-line bg-sunken py-16 sm:py-24">
+    <SectionReveal className="border-t border-line bg-sunken pb-16 pt-16 sm:pb-20 sm:pt-24">
       <div className="container-page">
         <SectionHeading
           id="drawings"
@@ -157,15 +173,15 @@ function DrawingsSection({ project, number }: { project: Project; number: string
         )}
 
         <ul className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-          {items.map((d, i) => (
+          {visible.map((d, i) => (
             <motion.li key={d.src} {...reveal(i)}>
               <button
                 type="button"
                 onClick={() => setOpen(i)}
                 className="group block w-full text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange"
               >
-                <span className="relative block aspect-[1.414/1] overflow-hidden border border-line bg-surface transition-[border-color,transform,box-shadow] duration-500 group-hover:-translate-y-1 group-hover:border-orange group-hover:shadow-[0_14px_40px_-18px_rgba(255,122,26,0.45)]">
-                  <Image
+                <span className="skeleton relative block aspect-[1.414/1] overflow-hidden border border-line transition-[border-color,transform,box-shadow] duration-500 group-hover:-translate-y-1 group-hover:border-orange group-hover:shadow-[0_14px_40px_-18px_rgba(255,122,26,0.45)]">
+                  <FadeImage
                     src={d.src}
                     alt={d.alt}
                     fill
@@ -179,6 +195,19 @@ function DrawingsSection({ project, number }: { project: Project; number: string
             </motion.li>
           ))}
         </ul>
+
+        {collapsible && (
+          <div className="mt-10 flex justify-center">
+            <button
+              type="button"
+              onClick={toggle}
+              aria-expanded={expanded}
+              className="btn-outline"
+            >
+              {expanded ? "Свернуть" : `Показать все ${items.length} листов`}
+            </button>
+          </div>
+        )}
       </div>
       <ImageLightbox
         items={items}
@@ -209,7 +238,7 @@ function RendersSection({ project, number }: { project: Project; number: string 
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <SectionReveal className="container-page py-16 sm:py-24">
+    <SectionReveal className="container-page pb-16 pt-16 sm:pb-24 sm:pt-20">
       <SectionHeading
         id="renders"
         number={number}
@@ -229,16 +258,19 @@ function RendersSection({ project, number }: { project: Project; number: string 
                     type="button"
                     onClick={() => setOpen(i)}
                     {...reveal(i)}
-                    className="group relative mb-4 block w-full break-inside-avoid overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange"
+                    style={{ aspectRatio: `${r.width} / ${r.height}` }}
+                    className="skeleton group relative mb-4 block w-full break-inside-avoid overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange"
                   >
-                    <Image
-                      src={r.src}
-                      alt={r.alt}
-                      width={r.width}
-                      height={r.height}
-                      sizes="(min-width: 640px) 50vw, 100vw"
-                      className="h-auto w-full transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
-                    />
+                    <span className="block transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]">
+                      <FadeImage
+                        src={r.src}
+                        alt={r.alt}
+                        width={r.width}
+                        height={r.height}
+                        sizes="(min-width: 640px) 50vw, 100vw"
+                        className="h-auto w-full"
+                      />
+                    </span>
                     <span
                       aria-hidden
                       className="absolute inset-0 bg-gradient-to-t from-red/40 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"
