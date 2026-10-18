@@ -5,11 +5,15 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-24 pb-24 md:pb-0">
+    <footer className="relative mt-24 overflow-hidden pb-24 md:pb-0">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-[radial-gradient(60%_100%_at_50%_0%,rgba(229,57,43,0.14),transparent)]"
+      />
       <div className="rule-gradient" />
       <div className="container-page py-12">
-        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
-          <div>
+        <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-[1.4fr_1fr_1fr]">
+          <div className="sm:col-span-2 md:col-span-1">
             <p className="font-display text-2xl">
               {siteConfig.name}
               <span className="text-fg-muted">.com</span>
@@ -22,10 +26,10 @@ export function Footer() {
 
           <nav aria-label="Разделы сайта">
             <p className="label">Разделы</p>
-            <ul className="mt-4 space-y-2 text-sm">
+            <ul className="mt-2 text-sm">
               {navLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-fg-soft hover:text-fg">
+                  <Link href={link.href} className="tap text-fg-soft transition-colors duration-300 hover:text-orange">
                     {link.label}
                   </Link>
                 </li>
@@ -33,13 +37,13 @@ export function Footer() {
             </ul>
           </nav>
 
-          <div>
+          <div className="sm:col-span-2 md:col-span-1">
             <p className="label">Связаться</p>
-            <ul className="mt-4 space-y-2 text-sm">
+            <ul className="mt-2 text-sm">
               <li>
                 <a
                   href={`mailto:${siteConfig.contacts.email}`}
-                  className="text-fg-soft hover:text-fg"
+                  className="tap text-fg-soft transition-colors duration-300 hover:text-orange"
                 >
                   {siteConfig.contacts.email}
                 </a>
@@ -49,7 +53,7 @@ export function Footer() {
                   href={siteConfig.contacts.telegram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-fg-soft hover:text-fg"
+                  className="tap text-fg-soft transition-colors duration-300 hover:text-orange"
                 >
                   Telegram
                 </a>
@@ -59,7 +63,7 @@ export function Footer() {
                   href={siteConfig.contacts.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-fg-soft hover:text-fg"
+                  className="tap text-fg-soft transition-colors duration-300 hover:text-orange"
                 >
                   Instagram
                 </a>

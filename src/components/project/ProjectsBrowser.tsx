@@ -29,7 +29,7 @@ export function ProjectsBrowser({ projects }: { projects: Project[] }) {
                 type="button"
                 aria-pressed={isActive}
                 onClick={() => setActive(f)}
-                className={`border px-4 py-2 text-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange ${
+                className={`min-h-11 border px-5 py-2 text-sm transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange ${
                   isActive
                     ? "border-red-deep bg-red-deep text-white"
                     : "border-line text-fg-muted hover:border-orange hover:text-fg"

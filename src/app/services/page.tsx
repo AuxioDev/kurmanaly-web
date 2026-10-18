@@ -15,7 +15,9 @@ export default function ServicesPage() {
     <>
       <section className="container-page pt-10 sm:pt-16">
         <p className="eyebrow">Услуги</p>
-        <h1 className="mt-3 text-5xl sm:text-7xl">Что входит в проект</h1>
+        <h1 className="mt-3 text-5xl sm:text-7xl">
+          Что входит <span className="text-gradient">в проект</span>
+        </h1>
         <p className="mt-5 max-w-xl leading-relaxed text-fg-soft">
           Три формата работы: от планировки до полной документации для ремонта.
           Работаю дистанционно с объектами в Бишкеке и Москве.

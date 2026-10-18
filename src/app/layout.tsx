@@ -4,6 +4,8 @@ import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvide
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { BottomNav } from "@/components/layout/BottomNav";
+import { MotionProvider } from "@/components/motion/MotionProvider";
+import { ScrollProgress } from "@/components/motion/ScrollProgress";
 import { siteConfig } from "@/data/site";
 import "./globals.css";
 
@@ -40,6 +42,9 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: "#0B0908",
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
@@ -52,12 +57,15 @@ export default function RootLayout({
       <body
         className={`${display.variable} ${body.variable} min-h-screen bg-canvas text-fg`}
       >
-        <SmoothScrollProvider>
-          <Header />
-          <main className="pt-16 sm:pt-20">{children}</main>
-          <Footer />
-          <BottomNav />
-        </SmoothScrollProvider>
+        <MotionProvider>
+          <SmoothScrollProvider>
+            <ScrollProgress />
+            <Header />
+            <main className="pt-16 sm:pt-20">{children}</main>
+            <Footer />
+            <BottomNav />
+          </SmoothScrollProvider>
+        </MotionProvider>
       </body>
     </html>
   );

@@ -16,8 +16,11 @@ export default function HomePage() {
     <div className="relative isolate">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[80vh] bg-[radial-gradient(55%_60%_at_15%_0%,rgba(229,57,43,0.22),transparent_70%),radial-gradient(40%_45%_at_85%_10%,rgba(255,122,26,0.12),transparent_70%)]"
-      />
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[90vh] overflow-hidden"
+      >
+        <div className="absolute -left-[12%] -top-[22%] h-[60vh] w-[70vw] max-w-[900px] rounded-full bg-red/25 blur-3xl will-change-transform motion-safe:md:animate-float-a md:blur-[120px]" />
+        <div className="absolute -right-[10%] top-[4%] h-[46vh] w-[50vw] max-w-[700px] rounded-full bg-orange/15 blur-3xl will-change-transform motion-safe:md:animate-float-b md:blur-[120px]" />
+      </div>
       <HeroSection featured={featured} />
       <ProcessSection />
 

@@ -2,10 +2,20 @@
 
 import Image from "next/image";
 import { useMemo, useState } from "react";
+import { motion } from "framer-motion";
 import { RevealItem, SectionReveal } from "@/components/motion/SectionReveal";
 import { BeforeAfter } from "@/components/project/BeforeAfter";
 import { ImageLightbox, type LightboxItem } from "@/components/project/ImageLightbox";
+import { luxuryEase } from "@/lib/motion";
 import type { Project } from "@/lib/types";
+
+/** Каскадное появление элементов галереи при попадании в экран */
+const reveal = (i: number) => ({
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "0px 0px -8% 0px" },
+  transition: { duration: 0.65, delay: (i % 4) * 0.07, ease: luxuryEase },
+});
 
 export function ProjectStory({ project }: { project: Project }) {
   const hasMoodboard = project.moodboard.length > 0;
@@ -19,14 +29,14 @@ export function ProjectStory({ project }: { project: Project }) {
     <div>
       <nav
         aria-label="Разделы проекта"
-        className="sticky top-14 z-30 border-y border-line bg-canvas/90 backdrop-blur-md sm:top-16"
+        className="sticky top-14 z-30 border-y border-line bg-canvas/90 backdrop-blur-md"
       >
-        <ol className="container-page flex gap-6 overflow-x-auto py-3 text-sm">
+        <ol className="container-page flex gap-6 overflow-x-auto text-sm">
           {steps.map((step, i) => (
             <li key={step.id} className="shrink-0">
               <a
                 href={`#${step.id}`}
-                className="text-fg-muted transition-colors hover:text-fg"
+                className="tap text-fg-muted transition-colors duration-300 hover:text-fg"
               >
                 <span className="mr-2 text-xs text-orange">0{i + 1}</span>
                 {step.label}
@@ -82,10 +92,11 @@ function MoodboardSection({ project, number }: { project: Project; number: strin
       />
       <div className="mt-10 columns-1 gap-4 sm:columns-2 lg:columns-3">
         {items.map((m, i) => (
-          <button
+          <motion.button
             key={m.src}
             type="button"
             onClick={() => setOpen(i)}
+            {...reveal(i)}
             className="mb-4 block w-full break-inside-avoid focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange"
           >
             <Image
@@ -96,7 +107,7 @@ function MoodboardSection({ project, number }: { project: Project; number: strin
               sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
               className="h-auto w-full"
             />
-          </button>
+          </motion.button>
         ))}
       </div>
       <ImageLightbox
@@ -147,13 +158,13 @@ function DrawingsSection({ project, number }: { project: Project; number: string
 
         <ul className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {items.map((d, i) => (
-            <li key={d.src}>
+            <motion.li key={d.src} {...reveal(i)}>
               <button
                 type="button"
                 onClick={() => setOpen(i)}
                 className="group block w-full text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange"
               >
-                <span className="relative block aspect-[1.414/1] overflow-hidden border border-line bg-surface transition-colors group-hover:border-orange">
+                <span className="relative block aspect-[1.414/1] overflow-hidden border border-line bg-surface transition-[border-color,transform,box-shadow] duration-500 group-hover:-translate-y-1 group-hover:border-orange group-hover:shadow-[0_14px_40px_-18px_rgba(255,122,26,0.45)]">
                   <Image
                     src={d.src}
                     alt={d.alt}
@@ -165,7 +176,7 @@ function DrawingsSection({ project, number }: { project: Project; number: string
                 <span className="mt-2 block text-xs text-fg-muted">{d.caption}</span>
                 <span className="block text-sm">{d.title}</span>
               </button>
-            </li>
+            </motion.li>
           ))}
         </ul>
       </div>
@@ -213,11 +224,12 @@ function RendersSection({ project, number }: { project: Project; number: string 
             <div className="mt-5 columns-1 gap-4 sm:columns-2">
               {project.renders.map((r, i) =>
                 r.room === room ? (
-                  <button
+                  <motion.button
                     key={r.src}
                     type="button"
                     onClick={() => setOpen(i)}
-                    className="group mb-4 block w-full break-inside-avoid overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange"
+                    {...reveal(i)}
+                    className="group relative mb-4 block w-full break-inside-avoid overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange"
                   >
                     <Image
                       src={r.src}
@@ -225,9 +237,13 @@ function RendersSection({ project, number }: { project: Project; number: string 
                       width={r.width}
                       height={r.height}
                       sizes="(min-width: 640px) 50vw, 100vw"
-                      className="h-auto w-full transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                      className="h-auto w-full transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
                     />
-                  </button>
+                    <span
+                      aria-hidden
+                      className="absolute inset-0 bg-gradient-to-t from-red/40 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                    />
+                  </motion.button>
                 ) : null,
               )}
             </div>

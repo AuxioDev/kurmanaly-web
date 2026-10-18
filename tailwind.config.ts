@@ -6,6 +6,8 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  // hover-стили применяются только на устройствах с мышью, на тачскринах не «залипают»
+  future: { hoverOnlyWhenSupported: true },
   theme: {
     extend: {
       colors: {
@@ -36,6 +38,30 @@ const config: Config = {
       fontFamily: {
         display: ["var(--font-display)", "Georgia", "serif"],
         body: ["var(--font-body)", "system-ui", "sans-serif"],
+      },
+      keyframes: {
+        "gradient-x": {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
+        "float-a": {
+          "0%, 100%": { transform: "translate3d(0, 0, 0) scale(1)" },
+          "50%": { transform: "translate3d(6%, 8%, 0) scale(1.12)" },
+        },
+        "float-b": {
+          "0%, 100%": { transform: "translate3d(0, 0, 0) scale(1.05)" },
+          "50%": { transform: "translate3d(-8%, 6%, 0) scale(0.95)" },
+        },
+        "page-in": {
+          from: { opacity: "0", transform: "translateY(14px)" },
+          to: { opacity: "1", transform: "none" },
+        },
+      },
+      animation: {
+        gradient: "gradient-x 9s ease-in-out infinite",
+        "float-a": "float-a 20s ease-in-out infinite",
+        "float-b": "float-b 26s ease-in-out infinite",
+        "page-in": "page-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards",
       },
     },
   },

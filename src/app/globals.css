@@ -5,6 +5,20 @@
 @layer base {
   html {
     color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* На больших мониторах масштабируем всё через rem, чтобы сайт не терялся в пустых полях */
+  @media (min-width: 1920px) {
+    html {
+      font-size: 112.5%;
+    }
+  }
+
+  @media (min-width: 2560px) {
+    html {
+      font-size: 125%;
+    }
   }
 
   html.lenis,
@@ -24,30 +38,56 @@
     scroll-behavior: smooth;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-  }
-
   body {
-    @apply bg-canvas font-body text-fg antialiased;
+    @apply overflow-x-hidden bg-canvas font-body text-fg antialiased;
   }
 
   h1,
   h2,
   h3 {
     @apply font-display font-medium tracking-tight;
+    text-wrap: balance;
   }
 
   ::selection {
     @apply bg-orange text-canvas;
   }
+
+  /* Уважаем настройку «уменьшить движение» */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
 
 @layer components {
+  /* Боковые отступы с учётом выреза экрана (safe area) */
   .container-page {
-    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+    --gutter: 1rem;
+    @apply mx-auto w-full max-w-7xl;
+    padding-left: max(var(--gutter), env(safe-area-inset-left));
+    padding-right: max(var(--gutter), env(safe-area-inset-right));
+  }
+
+  @media (min-width: 640px) {
+    .container-page {
+      --gutter: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container-page {
+      --gutter: 2rem;
+    }
   }
 
   /* Метка раздела: оранжевая, с короткой градиентной линией */
@@ -57,7 +97,7 @@
 
   .eyebrow::before {
     content: "";
-    @apply h-px w-8 bg-gradient-to-r from-red to-orange;
+    @apply h-px w-8 shrink-0 bg-gradient-to-r from-red to-orange;
   }
 
   /* Подпись данных: спокойная, без акцента */
@@ -65,23 +105,107 @@
     @apply text-xs font-medium uppercase tracking-[0.18em] text-fg-muted;
   }
 
+  /* Градиентный текст, плавно перетекающий между красным и оранжевым */
   .text-gradient {
-    @apply inline-block bg-gradient-to-r from-red to-orange bg-clip-text pb-[0.08em] text-transparent;
+    @apply inline-block animate-gradient bg-gradient-to-r from-red via-orange to-red bg-clip-text pb-[0.08em] text-transparent;
+    background-size: 200% 100%;
   }
 
   .rule-gradient {
     @apply h-px bg-gradient-to-r from-red via-orange to-transparent;
   }
 
-  .btn-primary {
-    @apply inline-flex items-center justify-center rounded-none border border-red-deep bg-red-deep px-7 py-3.5 text-sm font-medium text-white transition-colors hover:border-orange hover:bg-orange hover:text-canvas focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange disabled:opacity-60;
+  /* Мягкая подсветка поверхности карточки */
+  .surface-gradient {
+    @apply bg-surface bg-gradient-to-br from-white/[0.05] via-transparent to-transparent;
   }
 
+  /* Градиентная рамка, плавно проявляющаяся при наведении и фокусе */
+  .card-glow {
+    position: relative;
+    transition:
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .card-glow::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    padding: 1px;
+    pointer-events: none;
+    background: linear-gradient(135deg, #e5392b, #ff7a1a 55%, transparent);
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box exclude,
+      linear-gradient(#000 0 0);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .card-glow:focus-within::before {
+    opacity: 1;
+  }
+
+  @media (hover: hover) {
+    .card-glow:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 50px -20px rgba(229, 57, 43, 0.45);
+    }
+
+    .card-glow:hover::before {
+      opacity: 1;
+    }
+  }
+
+  /* Кнопка: красный градиент, при наведении плавно «заливается» оранжевым */
+  .btn-primary {
+    @apply relative isolate inline-flex items-center justify-center overflow-hidden rounded-none border border-red-deep bg-gradient-to-br from-[#C42818] to-red-deep px-7 py-3.5 text-sm font-medium text-white transition-[color,transform,border-color] duration-300 hover:border-orange hover:text-canvas focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange active:scale-[0.98] disabled:opacity-60;
+    min-height: 2.75rem;
+  }
+
+  .btn-primary::before {
+    content: "";
+    @apply absolute inset-0 -z-10 bg-gradient-to-r from-orange to-[#FFB04D] opacity-0 transition-opacity duration-300;
+  }
+
+  .btn-primary:hover::before,
+  .btn-primary:focus-visible::before {
+    @apply opacity-100;
+  }
+
+  .btn-primary:disabled::before {
+    display: none;
+  }
+
+  /* Контурная кнопка: градиентная заливка выезжает слева */
   .btn-outline {
-    @apply inline-flex items-center justify-center rounded-none border border-fg/40 px-7 py-3.5 text-sm font-medium text-fg transition-colors hover:border-orange hover:text-orange focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange;
+    @apply relative isolate inline-flex items-center justify-center overflow-hidden rounded-none border border-fg/40 px-7 py-3.5 text-sm font-medium text-fg transition-[color,transform,border-color] duration-300 hover:border-orange hover:text-canvas focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange active:scale-[0.98];
+    min-height: 2.75rem;
+  }
+
+  .btn-outline::before {
+    content: "";
+    @apply absolute inset-0 -z-10 origin-left scale-x-0 bg-gradient-to-r from-orange to-[#FFB04D] transition-transform duration-500;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .btn-outline:hover::before,
+  .btn-outline:focus-visible::before {
+    @apply scale-x-100;
   }
 
   .field {
-    @apply mt-1.5 w-full rounded-none border border-line bg-surface px-4 py-3 text-fg placeholder:text-fg-muted/60 focus:border-orange focus:outline-none;
+    @apply mt-1.5 w-full rounded-none border border-line bg-surface px-4 py-3 text-base text-fg transition-[border-color,box-shadow] duration-300 placeholder:text-fg-muted/60 focus:border-orange focus:shadow-[0_0_0_3px_rgba(255,122,26,0.15)] focus:outline-none;
+    min-height: 2.75rem;
+  }
+
+  /* Ссылки с комфортной зоной нажатия (44 px) */
+  .tap {
+    @apply inline-flex min-h-11 min-w-11 items-center;
   }
 }

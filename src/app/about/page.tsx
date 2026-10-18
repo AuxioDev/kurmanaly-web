@@ -27,7 +27,9 @@ export default function AboutPage() {
     <>
       <section className="container-page pt-10 sm:pt-16">
         <p className="eyebrow">Обо мне</p>
-        <h1 className="mt-3 text-5xl sm:text-7xl">{siteConfig.designer}</h1>
+        <h1 className="mt-3 text-5xl sm:text-7xl">
+          <span className="text-gradient">{siteConfig.designer}</span>
+        </h1>
 
         <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_1.2fr]">
           {/* TODO: заменить блок на портретное фото */}
@@ -56,7 +58,7 @@ export default function AboutPage() {
         <h2 className="text-4xl sm:text-5xl">Принципы работы</h2>
         <ul className="mt-10 grid gap-px bg-line md:grid-cols-3">
           {principles.map((p) => (
-            <li key={p.title} className="bg-canvas p-6 sm:p-8">
+            <li key={p.title} className="surface-gradient p-6 sm:p-8">
               <h3 className="text-2xl sm:text-3xl">{p.title}</h3>
               <p className="mt-3 leading-relaxed text-fg-soft">{p.text}</p>
             </li>

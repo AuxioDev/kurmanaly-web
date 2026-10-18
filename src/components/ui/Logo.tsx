@@ -7,7 +7,7 @@ export function Logo({ className = "" }: { className?: string }) {
     <Link
       href="/"
       aria-label={`${siteConfig.name} — на главную`}
-      className={`flex items-center gap-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange ${className}`}
+      className={`flex min-h-11 items-center gap-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange ${className}`}
     >
       <Image
         src="/logo.webp"

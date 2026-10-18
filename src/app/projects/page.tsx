@@ -14,7 +14,9 @@ export default function ProjectsPage() {
     <>
       <section className="container-page pt-10 sm:pt-16">
         <p className="eyebrow">Портфолио</p>
-        <h1 className="mt-3 text-5xl sm:text-7xl">Проекты</h1>
+        <h1 className="mt-3 text-5xl sm:text-7xl">
+          <span className="text-gradient">Проекты</span>
+        </h1>
         <p className="mt-5 max-w-xl leading-relaxed text-fg-soft">
           У каждого проекта показан весь путь: идея, рабочие чертежи и
           итоговые визуализации.

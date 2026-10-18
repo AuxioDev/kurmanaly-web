@@ -14,19 +14,20 @@ export function ServicesSection({ showHeading = true }: { showHeading?: boolean 
         </RevealItem>
       )}
 
-      <ul className={`grid gap-6 lg:grid-cols-3 ${showHeading ? "mt-12" : ""}`}>
+      <ul className={`grid gap-6 md:grid-cols-2 lg:grid-cols-3 ${showHeading ? "mt-12" : ""}`}>
         {servicePackages.map((pkg) => (
-          <li key={pkg.id}>
+          <li
+            key={pkg.id}
+            className={pkg.highlighted ? "md:col-span-2 lg:col-span-1" : undefined}
+          >
             <RevealItem className="h-full">
               <article
-                className={`relative flex h-full flex-col border p-6 sm:p-8 ${
-                  pkg.highlighted
-                    ? "border-red-deep bg-surface"
-                    : "border-line"
+                className={`card-glow surface-gradient relative flex h-full flex-col border p-6 sm:p-8 ${
+                  pkg.highlighted ? "border-red-deep" : "border-line"
                 }`}
               >
                 {pkg.highlighted && (
-                  <p className="absolute left-6 top-0 -translate-y-1/2 bg-red-deep px-2.5 py-1 text-xs text-white sm:left-8">
+                  <p className="absolute left-6 top-0 -translate-y-1/2 bg-gradient-to-r from-red-deep to-red px-2.5 py-1 text-xs text-white sm:left-8">
                     Самый полный
                   </p>
                 )}

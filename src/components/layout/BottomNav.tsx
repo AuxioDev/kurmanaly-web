@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
 import { navLinks } from "@/data/site";
 
 const icons: Record<string, React.ReactNode> = {
@@ -49,10 +50,18 @@ export function BottomNav() {
               <Link
                 href={href}
                 aria-current={active ? "page" : undefined}
-                className={`flex flex-col items-center gap-1 px-2 py-1.5 text-[11px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange ${
+                className={`relative flex min-h-14 flex-col items-center justify-center gap-1 px-2 py-1.5 text-xs transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange ${
                   active ? "text-orange" : "text-fg-muted"
                 }`}
               >
+                {active && (
+                  <motion.span
+                    layoutId="bottom-nav-indicator"
+                    aria-hidden
+                    className="absolute inset-x-3 -top-2 h-0.5 bg-gradient-to-r from-red to-orange"
+                    transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                  />
+                )}
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
                   {icons[href]}
                 </svg>

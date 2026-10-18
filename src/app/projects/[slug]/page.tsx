@@ -46,7 +46,7 @@ export default function ProjectPage({ params }: PageProps) {
         <header className="container-page pt-10 sm:pt-16">
           <Link
             href="/projects"
-            className="text-sm text-fg-muted hover:text-fg"
+            className="tap text-sm text-fg-muted transition-colors duration-300 hover:text-orange"
           >
             ← Все проекты
           </Link>
@@ -56,7 +56,7 @@ export default function ProjectPage({ params }: PageProps) {
             <p className="max-w-2xl text-lg leading-relaxed text-fg-soft">
               {project.summary}
             </p>
-            <dl className="grid grid-cols-2 gap-x-6 gap-y-4 border-t border-line pt-6 text-sm lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+            <dl className="grid grid-cols-2 gap-x-6 gap-y-4 border-t border-line pt-6 text-sm sm:grid-cols-3 lg:grid-cols-2 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
               {facts.map((f) => (
                 <div key={f.label}>
                   <dt className="label">{f.label}</dt>

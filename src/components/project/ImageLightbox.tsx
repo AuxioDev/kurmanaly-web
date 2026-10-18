@@ -31,6 +31,7 @@ export function ImageLightbox({
   const [mounted, setMounted] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
   const scrollerRef = useRef<HTMLDivElement>(null);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
   const open = index !== null;
   const item = index !== null ? items[index] : null;
   const zoom = ZOOM_LEVELS[zoomIdx];
@@ -88,7 +89,7 @@ export function ImageLightbox({
           animate="visible"
           exit="exit"
         >
-          <div className="flex items-center justify-between gap-4 border-b border-line px-4 py-3 sm:px-6">
+          <div className="flex items-center justify-between gap-4 border-b border-line px-4 pb-3 pt-[max(0.75rem,env(safe-area-inset-top))] sm:px-6">
             <div className="min-w-0">
               <p className="truncate font-display text-lg sm:text-2xl">{item.title}</p>
               {item.caption && (
@@ -120,7 +121,7 @@ export function ImageLightbox({
                 type="button"
                 onClick={onClose}
                 aria-label="Закрыть"
-                className="ml-1 flex h-10 w-10 items-center justify-center border border-line text-fg hover:border-orange focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange"
+                className="ml-1 flex h-11 w-11 items-center justify-center border border-line text-fg transition-colors duration-300 hover:border-orange hover:text-orange focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
                   <path
@@ -139,13 +140,32 @@ export function ImageLightbox({
               ref={scrollerRef}
               data-lenis-prevent
               className="absolute inset-0 overflow-auto"
+              onTouchStart={(e) => {
+                const t = e.touches[0];
+                touchStart.current = { x: t.clientX, y: t.clientY };
+              }}
+              onTouchEnd={(e) => {
+                const start = touchStart.current;
+                touchStart.current = null;
+                if (!start || zoomIdx !== 0) return;
+                const t = e.changedTouches[0];
+                const dx = t.clientX - start.x;
+                const dy = t.clientY - start.y;
+                if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) go(dx < 0 ? 1 : -1);
+              }}
             >
               <div
                 className="flex min-h-full items-center justify-center p-3 sm:p-6"
                 style={{ width: `${zoom * 100}%` }}
               >
-                <Image
+                <motion.div
                   key={item.src}
+                  initial={{ opacity: 0, scale: 0.97 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                  className="flex w-full justify-center"
+                >
+                <Image
                   src={item.src}
                   alt={item.alt}
                   width={item.width}
@@ -162,6 +182,7 @@ export function ImageLightbox({
                       : "w-full cursor-zoom-out"
                   }`}
                 />
+                </motion.div>
               </div>
             </div>
 
@@ -196,7 +217,7 @@ function IconButton({
       aria-label={label}
       disabled={disabled}
       onClick={onClick}
-      className="flex h-10 w-10 items-center justify-center border border-line text-fg hover:border-orange focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange disabled:opacity-30 disabled:hover:border-line"
+      className="flex h-11 w-11 items-center justify-center border border-line text-fg transition-colors duration-300 hover:border-orange hover:text-orange focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange disabled:opacity-30 disabled:hover:border-line"
     >
       <svg
         width="18"

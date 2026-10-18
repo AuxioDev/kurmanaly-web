@@ -99,7 +99,7 @@ export function InquiryForm({ defaultPackage = "unsure" }: { defaultPackage?: st
       </div>
 
       <label className="flex items-start gap-3 text-sm text-fg-soft">
-        <input type="checkbox" name="consent" required className="mt-1 h-4 w-4 accent-red" />
+        <input type="checkbox" name="consent" required className="mt-0.5 h-5 w-5 shrink-0 accent-red" />
         <span>Согласен(на) на обработку персональных данных для связи по проекту.</span>
       </label>
 

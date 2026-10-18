@@ -40,7 +40,7 @@ export function BeforeAfter({ before, after }: BeforeAfterProps) {
         </div>
 
         <div
-          className="pointer-events-none absolute inset-y-0 w-px bg-orange"
+          className="pointer-events-none absolute inset-y-0 w-px bg-orange shadow-[0_0_14px_rgba(255,122,26,0.8)]"
           style={{ left: `${position}%` }}
         >
           <span className="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center border border-orange bg-orange text-canvas">
@@ -71,7 +71,7 @@ export function BeforeAfter({ before, after }: BeforeAfterProps) {
           value={position}
           onChange={(e) => setPosition(Number(e.target.value))}
           aria-label="Сравнить обмерный план и план перепланировки"
-          className="absolute inset-0 h-full w-full cursor-ew-resize opacity-0"
+          className="absolute inset-0 h-full w-full cursor-ew-resize touch-pan-y opacity-0"
         />
       </div>
       <p className="mt-3 text-xs text-fg-muted">
