@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Outfit } from "next/font/google";
+import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { BottomNav } from "@/components/layout/BottomNav";
@@ -14,10 +15,10 @@ const cormorant = Cormorant_Garamond({
   display: "swap",
 });
 
-const outfit = Outfit({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-outfit",
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-jakarta",
   display: "swap",
 });
 
@@ -44,14 +45,16 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <body
-        className={`${cormorant.variable} ${outfit.variable} min-h-screen bg-surface text-zinc-100`}
+        className={`${cormorant.variable} ${plusJakarta.variable} min-h-screen bg-surface text-zinc-100`}
       >
         <ThemeProvider>
-          <AmbientBackground />
-          <Header />
-          <main>{children}</main>
-          <Footer />
-          <BottomNav />
+          <SmoothScrollProvider>
+            <AmbientBackground />
+            <Header />
+            <main>{children}</main>
+            <Footer />
+            <BottomNav />
+          </SmoothScrollProvider>
         </ThemeProvider>
       </body>
     </html>

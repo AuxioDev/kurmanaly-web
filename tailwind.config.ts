@@ -37,7 +37,10 @@ const config: Config = {
       },
       fontFamily: {
         display: ["var(--font-cormorant)", "Georgia", "serif"],
-        body: ["var(--font-outfit)", "system-ui", "sans-serif"],
+        body: ["var(--font-jakarta)", "system-ui", "sans-serif"],
+      },
+      letterSpacing: {
+        luxury: "0.02em",
       },
       boxShadow: {
         glow: "0 0 40px -8px rgba(196, 30, 58, 0.35)",

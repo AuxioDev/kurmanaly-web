@@ -2,6 +2,8 @@
 
 import { FormEvent, useState } from "react";
 import { motion } from "framer-motion";
+import { MagneticButton } from "@/components/motion/MagneticButton";
+import { RevealItem, SectionReveal } from "@/components/motion/SectionReveal";
 
 export function InquirySection() {
   const [submitted, setSubmitted] = useState(false);
@@ -16,14 +18,19 @@ export function InquirySection() {
   }
 
   return (
-    <section id="inquire" className="scroll-mt-24 border-t border-white/5 py-16 sm:py-20">
+    <SectionReveal
+      id="inquire"
+      className="scroll-mt-28 border-t border-white/5 py-16 sm:py-24"
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-xl">
-          <h2 className="font-display text-3xl text-zinc-100 sm:text-4xl">Inquire</h2>
-          <p className="mt-2 text-sm text-zinc-500">
+          <RevealItem>
+            <h2 className="font-display text-3xl text-zinc-100 sm:text-5xl">Inquire</h2>
+            <p className="mt-3 text-sm leading-relaxed text-zinc-500">
             Request availability, pricing, or discuss a custom commission. We respond
             within two business days.
-          </p>
+            </p>
+          </RevealItem>
 
           {submitted ? (
             <motion.div
@@ -104,17 +111,17 @@ export function InquirySection() {
                   placeholder="Tell us about your interest, timeline, or commission idea..."
                 />
               </div>
-              <button
+              <MagneticButton
                 type="submit"
                 disabled={loading}
-                className="w-full rounded-full bg-gradient-to-r from-crimson-glow to-violet-glow py-3.5 text-sm font-medium text-white transition hover:opacity-90 disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson-bright"
+                className="w-full rounded-full bg-gradient-to-r from-crimson-glow to-violet-glow py-3.5 text-sm font-semibold text-white shadow-glow disabled:opacity-60"
               >
                 {loading ? "Sending…" : "Send inquiry"}
-              </button>
+              </MagneticButton>
             </form>
           )}
         </div>
       </div>
-    </section>
+    </SectionReveal>
   );
 }

@@ -1,35 +1,43 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
+import { useScrollSpy } from "@/components/providers/SmoothScrollProvider";
 
 const items = [
-  { href: "#works", label: "Works", icon: GridIcon },
-  { href: "#exhibitions", label: "Tour", icon: CompassIcon },
-  { href: "#statement", label: "About", icon: UserIcon },
-  { href: "#inquire", label: "Inquire", icon: MailIcon },
-];
+  { href: "#works", id: "works", label: "Works", icon: GridIcon },
+  { href: "#exhibitions", id: "exhibitions", label: "Tour", icon: CompassIcon },
+  { href: "#statement", id: "statement", label: "About", icon: UserIcon },
+  { href: "#inquire", id: "inquire", label: "Inquire", icon: MailIcon },
+] as const;
 
 export function BottomNav() {
-  const pathname = usePathname();
+  const { activeSection, scrollTo } = useScrollSpy();
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/10 bg-surface/95 backdrop-blur-xl md:hidden"
+      className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/10 bg-surface/90 backdrop-blur-2xl md:hidden"
       aria-label="Mobile navigation"
     >
       <ul className="flex items-stretch justify-around px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2">
-        {items.map(({ href, label, icon: Icon }) => {
-          const active = pathname === "/" && href.startsWith("#");
+        {items.map(({ href, id, label, icon: Icon }) => {
+          const active = activeSection === id;
           return (
             <li key={href} className="flex-1">
-              <Link
-                href={href}
-                className="flex flex-col items-center gap-1 rounded-xl px-2 py-2 text-[10px] text-zinc-500 transition hover:text-violet-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-crimson-bright"
+              <button
+                type="button"
+                onClick={() => scrollTo(href)}
+                className="relative flex w-full flex-col items-center gap-1 rounded-xl px-2 py-2 text-[10px] text-zinc-500 transition hover:text-violet-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-crimson-bright"
               >
+                {active && (
+                  <motion.span
+                    layoutId="mobile-nav-glow"
+                    className="absolute inset-1 rounded-xl bg-violet-glow/15"
+                    transition={{ type: "spring", stiffness: 420, damping: 32 }}
+                  />
+                )}
                 <Icon active={active} />
-                <span>{label}</span>
-              </Link>
+                <span className={active ? "text-zinc-200" : ""}>{label}</span>
+              </button>
             </li>
           );
         })}
@@ -45,13 +53,13 @@ function GridIcon({ active }: { active: boolean }) {
       height="22"
       viewBox="0 0 24 24"
       fill="none"
-      className={active ? "text-crimson-bright" : "text-current"}
+      className={active ? "relative z-10 text-crimson-bright" : "relative z-10 text-current"}
       aria-hidden
     >
       <rect x="3" y="3" width="8" height="8" rx="1" stroke="currentColor" strokeWidth="1.5" />
       <rect x="13" y="3" width="8" height="8" rx="1" stroke="currentColor" strokeWidth="1.5" />
-      <rect x="3" y="13" width="8" height="8" rx="1" stroke="currentColor" strokeWidth="1.5" />
       <rect x="13" y="13" width="8" height="8" rx="1" stroke="currentColor" strokeWidth="1.5" />
+      <rect x="3" y="13" width="8" height="8" rx="1" stroke="currentColor" strokeWidth="1.5" />
     </svg>
   );
 }
@@ -63,7 +71,7 @@ function CompassIcon({ active }: { active: boolean }) {
       height="22"
       viewBox="0 0 24 24"
       fill="none"
-      className={active ? "text-crimson-bright" : "text-current"}
+      className={active ? "relative z-10 text-crimson-bright" : "relative z-10 text-current"}
       aria-hidden
     >
       <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
@@ -84,7 +92,7 @@ function UserIcon({ active }: { active: boolean }) {
       height="22"
       viewBox="0 0 24 24"
       fill="none"
-      className={active ? "text-crimson-bright" : "text-current"}
+      className={active ? "relative z-10 text-crimson-bright" : "relative z-10 text-current"}
       aria-hidden
     >
       <circle cx="12" cy="8" r="3.5" stroke="currentColor" strokeWidth="1.5" />
@@ -105,7 +113,7 @@ function MailIcon({ active }: { active: boolean }) {
       height="22"
       viewBox="0 0 24 24"
       fill="none"
-      className={active ? "text-crimson-bright" : "text-current"}
+      className={active ? "relative z-10 text-crimson-bright" : "relative z-10 text-current"}
       aria-hidden
     >
       <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.5" />

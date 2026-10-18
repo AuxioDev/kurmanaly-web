@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { RevealItem, SectionReveal } from "@/components/motion/SectionReveal";
+import { luxuryEase } from "@/lib/motion";
 
 const biography = `Kurmanaly is a contemporary artist working across oil painting, digital media, and graphic editions. Born along the Silk Road corridor, their practice weaves Central Asian landscape memory with urban nocturnes — always through a lens of deep crimson, violet, and wine-toned light.
 
@@ -15,12 +17,15 @@ export function StatementSection() {
   const [tab, setTab] = useState<"bio" | "statement">("bio");
 
   return (
-    <section id="statement" className="scroll-mt-24 border-t border-white/5 py-16 sm:py-20">
+    <SectionReveal
+      id="statement"
+      className="scroll-mt-28 border-t border-white/5 py-16 sm:py-24"
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-12">
-          <div className="lg:col-span-4">
-            <h2 className="font-display text-3xl text-zinc-100 sm:text-4xl">Statement</h2>
-            <div className="mt-6 flex gap-2" role="tablist">
+          <RevealItem className="lg:col-span-4">
+            <h2 className="font-display text-3xl text-zinc-100 sm:text-5xl">Statement</h2>
+            <div className="mt-6 flex flex-wrap gap-2" role="tablist">
               {(
                 [
                   ["bio", "Biography"],
@@ -43,13 +48,13 @@ export function StatementSection() {
                 </button>
               ))}
             </div>
-          </div>
+          </RevealItem>
 
           <motion.div
             key={tab}
-            initial={{ opacity: 0, y: 8 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35 }}
+            transition={{ duration: 0.45, ease: luxuryEase }}
             className="lg:col-span-8"
           >
             <div className="rounded-3xl border border-white/5 bg-surface-overlay/50 p-8 sm:p-10">
@@ -67,6 +72,6 @@ export function StatementSection() {
           </motion.div>
         </div>
       </div>
-    </section>
+    </SectionReveal>
   );
 }

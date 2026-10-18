@@ -118,6 +118,15 @@ export function SmoothScrollProvider({
     const id = target.startsWith("#") ? target : `#${target}`;
     const lenis = lenisRef.current;
 
+    if (id === "#hero") {
+      if (lenis) {
+        lenis.scrollTo(0, { duration: 1.2 });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+      return;
+    }
+
     if (lenis) {
       lenis.scrollTo(id, { offset: -88, duration: 1.35 });
       return;
