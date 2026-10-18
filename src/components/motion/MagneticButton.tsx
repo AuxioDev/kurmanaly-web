@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useRef } from "react";
-import { useScrollSpy } from "@/components/providers/SmoothScrollProvider";
+import { useSmoothScroll } from "@/components/providers/SmoothScrollProvider";
 
 const MAGNETIC_STRENGTH = 0.28;
 
@@ -27,7 +27,7 @@ export function MagneticButton({
   ariaLabel,
 }: MagneticButtonProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollTo } = useScrollSpy();
+  const { scrollTo } = useSmoothScroll();
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const springX = useSpring(x, { stiffness: 320, damping: 22, mass: 0.4 });

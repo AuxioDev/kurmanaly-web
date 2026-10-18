@@ -11,12 +11,8 @@ import {
   useState,
 } from "react";
 
-const SECTION_IDS = ["works", "exhibitions", "statement", "inquire"] as const;
-
 interface ScrollContextValue {
-  scrollY: number;
   isCompact: boolean;
-  activeSection: (typeof SECTION_IDS)[number] | null;
   scrollTo: (target: string) => void;
 }
 
@@ -28,11 +24,14 @@ export function SmoothScrollProvider({
   children: React.ReactNode;
 }) {
   const lenisRef = useRef<Lenis | null>(null);
-  const [scrollY, setScrollY] = useState(0);
-  const [activeSection, setActiveSection] =
-    useState<(typeof SECTION_IDS)[number] | null>(null);
+  const [isCompact, setIsCompact] = useState(false);
 
-  const isCompact = scrollY > 56;
+  useEffect(() => {
+    const onScroll = () => setIsCompact(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     const prefersReduced = window.matchMedia(
@@ -45,7 +44,7 @@ export function SmoothScrollProvider({
     }
 
     const lenis = new Lenis({
-      lerp: 0.085,
+      lerp: 0.09,
       smoothWheel: true,
       wheelMultiplier: 0.9,
       touchMultiplier: 1.1,
@@ -53,10 +52,6 @@ export function SmoothScrollProvider({
 
     lenisRef.current = lenis;
     document.documentElement.classList.add("lenis", "lenis-smooth");
-
-    lenis.on("scroll", ({ scroll }: { scroll: number }) => {
-      setScrollY(scroll);
-    });
 
     let rafId = 0;
     const raf = (time: number) => {
@@ -73,83 +68,29 @@ export function SmoothScrollProvider({
     };
   }, []);
 
-  useEffect(() => {
-    const ratios = new Map<string, number>();
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          ratios.set(entry.target.id, entry.intersectionRatio);
-        }
-
-        let bestId: (typeof SECTION_IDS)[number] | null = null;
-        let bestRatio = 0;
-
-        for (const id of SECTION_IDS) {
-          const ratio = ratios.get(id) ?? 0;
-          if (ratio > bestRatio) {
-            bestRatio = ratio;
-            bestId = id;
-          }
-        }
-
-        if (bestRatio > 0.12) {
-          setActiveSection(bestId);
-        } else if (scrollY < 120) {
-          setActiveSection(null);
-        }
-      },
-      {
-        root: null,
-        rootMargin: "-20% 0px -55% 0px",
-        threshold: [0, 0.12, 0.25, 0.4, 0.6, 0.8, 1],
-      },
-    );
-
-    for (const id of SECTION_IDS) {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    }
-
-    return () => observer.disconnect();
-  }, [scrollY]);
-
   const scrollTo = useCallback((target: string) => {
     const id = target.startsWith("#") ? target : `#${target}`;
     const lenis = lenisRef.current;
 
-    if (id === "#hero") {
-      if (lenis) {
-        lenis.scrollTo(0, { duration: 1.2 });
-      } else {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-      return;
-    }
-
     if (lenis) {
-      lenis.scrollTo(id, { offset: -88, duration: 1.35 });
+      lenis.scrollTo(id, { offset: -88, duration: 1.2 });
       return;
     }
 
-    const el = document.querySelector(id);
-    el?.scrollIntoView({ behavior: "smooth", block: "start" });
+    document.querySelector(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, []);
 
-  const value = useMemo(
-    () => ({ scrollY, isCompact, activeSection, scrollTo }),
-    [scrollY, isCompact, activeSection, scrollTo],
-  );
+  const value = useMemo(() => ({ isCompact, scrollTo }), [isCompact, scrollTo]);
 
   return (
     <ScrollContext.Provider value={value}>{children}</ScrollContext.Provider>
   );
 }
 
-export function useScrollSpy() {
+export function useSmoothScroll() {
   const ctx = useContext(ScrollContext);
   if (!ctx) {
-    throw new Error("useScrollSpy must be used within SmoothScrollProvider");
+    throw new Error("useSmoothScroll must be used within SmoothScrollProvider");
   }
   return ctx;
 }

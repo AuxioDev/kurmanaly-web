@@ -1,40 +1,45 @@
-import type { Metadata } from "next";
-import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
-import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import type { Metadata, Viewport } from "next";
+import { Cormorant_Garamond, Jost } from "next/font/google";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { BottomNav } from "@/components/layout/BottomNav";
-import { AmbientBackground } from "@/components/ui/AmbientBackground";
+import { siteConfig } from "@/data/site";
 import "./globals.css";
 
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-cormorant",
+const display = Cormorant_Garamond({
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "600"],
+  variable: "--font-display",
   display: "swap",
 });
 
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-jakarta",
+const body = Jost({
+  subsets: ["latin", "cyrillic"],
+  weight: ["300", "400", "500", "600"],
+  variable: "--font-body",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Kurmanaly — Art Portfolio & Digital Gallery",
-  description:
-    "Contemporary art portfolio at kurmanaly.com — oil paintings, digital works, graphics, and mixed media.",
-  metadataBase: new URL("https://kurmanaly.com"),
+  title: {
+    default: `${siteConfig.designer} — дизайн интерьеров`,
+    template: `%s — ${siteConfig.designer}`,
+  },
+  description: siteConfig.description,
+  metadataBase: new URL(siteConfig.url),
   openGraph: {
-    title: "Kurmanaly — Art Portfolio",
-    description: "Explore works, virtual studio tours, and commission inquiries.",
-    url: "https://kurmanaly.com",
+    title: `${siteConfig.designer} — ${siteConfig.tagline}`,
+    description: siteConfig.description,
+    url: siteConfig.url,
     siteName: "kurmanaly.com",
-    locale: "en_US",
+    locale: "ru_RU",
     type: "website",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#F6F4EF",
 };
 
 export default function RootLayout({
@@ -43,19 +48,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="ru">
       <body
-        className={`${cormorant.variable} ${plusJakarta.variable} min-h-screen bg-surface text-zinc-100`}
+        className={`${display.variable} ${body.variable} min-h-screen bg-paper text-ink`}
       >
-        <ThemeProvider>
-          <SmoothScrollProvider>
-            <AmbientBackground />
-            <Header />
-            <main>{children}</main>
-            <Footer />
-            <BottomNav />
-          </SmoothScrollProvider>
-        </ThemeProvider>
+        <SmoothScrollProvider>
+          <Header />
+          <main className="pt-16 sm:pt-20">{children}</main>
+          <Footer />
+          <BottomNav />
+        </SmoothScrollProvider>
       </body>
     </html>
   );

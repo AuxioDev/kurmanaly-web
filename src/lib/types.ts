@@ -1,41 +1,60 @@
-export type ArtworkCategory =
-  | "all"
-  | "oil"
-  | "digital"
-  | "graphics"
-  | "mixed";
+export type ProjectType = "apartment" | "house" | "commercial";
 
-export type AvailabilityStatus = "available" | "reserved" | "sold" | "commission";
+export interface ImageAsset {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+}
 
-export interface Artwork {
-  id: string;
+export interface Drawing extends ImageAsset {
+  sheet: string;
+  title: string;
+}
+
+export interface Render extends ImageAsset {
+  room: string;
+}
+
+export interface Credit {
+  role: string;
+  name: string;
+}
+
+export interface Project {
   slug: string;
   title: string;
+  city: string;
   year: number;
-  category: Exclude<ArtworkCategory, "all">;
-  medium: string;
-  dimensions: string;
-  availability: AvailabilityStatus;
-  description: string;
-  imageUrl: string;
-  featured?: boolean;
+  area: number;
+  type: ProjectType;
+  style: string;
+  summary: string;
+  cover: ImageAsset;
+  moodboard: ImageAsset[];
+  drawings: Drawing[];
+  renders: Render[];
+  credits: Credit[];
+  beforeAfter?: {
+    before: Drawing;
+    after: Drawing;
+  };
 }
 
-export interface Exhibition {
-  id: string;
-  title: string;
-  venue: string;
-  location: string;
-  year: number;
-  type: "solo" | "group";
-}
-
-export interface StudioRoom {
+export interface ServicePackage {
   id: string;
   name: string;
+  tagline: string;
+  includes: string[];
+  duration: string;
+  priceNote: string;
+  highlighted?: boolean;
+}
+
+export interface ProcessStep {
+  id: string;
+  title: string;
   description: string;
-  imageUrl: string;
-  colorMode: "crimson" | "violet" | "magenta";
 }
 
 export interface NavLink {
