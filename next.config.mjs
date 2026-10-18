@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    formats: ["image/avif", "image/webp"],
+    // Только WebP: исходники уже в WebP, а AVIF-кодирование некоторых листов чертежей
+    // зависало на десятки секунд на холодном кэше (картинки не грузились).
+    formats: ["image/webp"],
   },
 };
 

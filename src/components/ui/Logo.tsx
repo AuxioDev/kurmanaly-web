@@ -12,6 +12,7 @@ export function Logo({ className = "" }: { className?: string }) {
   return (
     <Link
       href={localePath(locale, "/")}
+      prefetch={false}
       aria-label={`${siteConfig.name} — ${dict.nav.homeLabel}`}
       className={`flex min-h-11 items-center gap-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange ${className}`}
     >

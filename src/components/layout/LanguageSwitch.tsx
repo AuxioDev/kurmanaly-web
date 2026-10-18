@@ -14,6 +14,7 @@ export function LanguageSwitch({ className = "" }: { className?: string }) {
   return (
     <Link
       href={localePath(other, stripLocale(pathname))}
+      prefetch={false}
       hrefLang={other}
       lang={other}
       aria-label={dict.nav.language.label}

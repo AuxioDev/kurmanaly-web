@@ -4,11 +4,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProjectStory } from "@/components/project/ProjectStory";
 import { CtaSection } from "@/components/sections/CtaSection";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getProject, projectSlugs } from "@/data/projects";
-import { fmt, localePath, locales } from "@/i18n/config";
+import { absoluteUrl, fmt, localePath, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { pageMetadata } from "@/i18n/metadata";
 import { requireLocale } from "@/i18n/params";
+import { breadcrumbStructuredData, projectStructuredData } from "@/lib/structured-data";
 
 interface PageProps {
   params: { locale: string; slug: string };
@@ -62,6 +64,14 @@ export default function ProjectPage({ params }: PageProps) {
 
   return (
     <>
+      <JsonLd data={projectStructuredData(locale, dict, project)} />
+      <JsonLd
+        data={breadcrumbStructuredData([
+          { name: dict.brand.designer, url: absoluteUrl(locale, "/") },
+          { name: dict.projects.title, url: absoluteUrl(locale, "/projects") },
+          { name: project.title, url: absoluteUrl(locale, `/projects/${project.slug}`) },
+        ])}
+      />
       <article>
         <header className="container-page pt-10 sm:pt-16">
           <Link

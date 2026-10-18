@@ -11,6 +11,7 @@ interface ProjectCopy {
   style: string;
   summary: string;
   coverAlt: string;
+  moodboardAlt: string;
   drawingAlt: string;
   renderAlt: string;
   drawings: Record<string, string>;
@@ -25,6 +26,8 @@ interface ProjectSource {
   type: ProjectType;
   base: string;
   cover: Omit<ImageAsset, "alt">;
+  /** Картинки мудборда. Пока массива нет, секция «Мудборд» на странице проекта скрыта. */
+  moodboard?: Omit<ImageAsset, "alt">[];
   sheets: string[];
   renders: { n: string; room: RoomKey; portrait?: boolean; height?: number }[];
   beforeAfter?: { before: string; after: string };
@@ -63,6 +66,7 @@ const sources: ProjectSource[] = [
         summary:
           "Двухкомнатная квартира с перепланировкой: мастер-спальня получила собственный санузел и гардеробную за стеклянной перегородкой. Графитовые панели, оливковые фасады и красный ковёр создают спокойный глубокий контраст.",
         coverAlt: "Мастер-спальня, проект «Новый Сити Бей»",
+        moodboardAlt: "Мудборд проекта «Новый Сити Бей»",
         drawingAlt: "{title}, лист {sheet}",
         renderAlt: "Визуализация: {room}",
         drawings: {
@@ -97,6 +101,7 @@ const sources: ProjectSource[] = [
         summary:
           "A two-room apartment with a re-plan: the master bedroom gained its own bathroom and a wardrobe behind a glass partition. Graphite panels, olive fronts and a red rug create a calm, deep contrast.",
         coverAlt: "Master bedroom, New City Bay project",
+        moodboardAlt: "Moodboard of the New City Bay project",
         drawingAlt: "{title}, sheet {sheet}",
         renderAlt: "Visualization: {room}",
         drawings: {
@@ -164,7 +169,7 @@ function localize(source: ProjectSource, locale: Locale): Project {
     style: copy.style,
     summary: copy.summary,
     cover: { ...source.cover, alt: copy.coverAlt },
-    moodboard: [],
+    moodboard: (source.moodboard ?? []).map((m) => ({ ...m, alt: copy.moodboardAlt })),
     drawings: source.sheets.map(drawing),
     renders: source.renders.map(render),
     credits: [

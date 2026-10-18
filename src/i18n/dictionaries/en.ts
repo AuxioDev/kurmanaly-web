@@ -135,6 +135,11 @@ export const en: Dictionary = {
     title: "Projects",
     lead: "Every project shows the whole path: the idea, working drawings and final visualizations.",
     filterLabel: "Filter projects by type",
+    styleLabel: "Style",
+    cityLabel: "City",
+    allStyles: "All styles",
+    allCities: "All cities",
+    empty: "No projects match the selected filters.",
     types: {
       all: "All",
       apartment: "Apartments",

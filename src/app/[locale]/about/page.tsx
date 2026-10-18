@@ -37,6 +37,10 @@ export default function AboutPage({ params }: PageProps) {
             <p key={p}>{p}</p>
           ))}
         </div>
+
+        <a href="/portfolio.pdf" download className="btn-outline mt-8">
+          {t.portfolio}
+        </a>
       </section>
 
       <section className="container-page py-16 sm:py-24">

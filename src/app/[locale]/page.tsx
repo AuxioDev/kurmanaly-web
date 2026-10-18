@@ -3,6 +3,7 @@ import Link from "next/link";
 import { RevealItem, SectionReveal } from "@/components/motion/SectionReveal";
 import { ProjectCard } from "@/components/project/ProjectCard";
 import { CtaSection } from "@/components/sections/CtaSection";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { ProcessSection } from "@/components/sections/ProcessSection";
 import { ServicesSection } from "@/components/sections/ServicesSection";
@@ -10,6 +11,7 @@ import { getFeaturedProject, getProjects } from "@/data/projects";
 import { localePath } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { pageMetadata } from "@/i18n/metadata";
+import { homeStructuredData } from "@/lib/structured-data";
 import { requireLocale } from "@/i18n/params";
 
 interface PageProps {
@@ -36,6 +38,7 @@ export default function HomePage({ params }: PageProps) {
 
   return (
     <div className="relative isolate">
+      <JsonLd data={homeStructuredData(locale, dict)} />
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[90vh] overflow-hidden"

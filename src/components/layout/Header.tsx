@@ -38,6 +38,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={localePath(locale, link.href)}
+                prefetch={false}
                 aria-current={active ? "page" : undefined}
                 className={`relative py-3 text-sm transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange ${
                   active ? "text-fg" : "text-fg-muted hover:text-fg"
@@ -60,6 +61,7 @@ export function Header() {
           <LanguageSwitch />
           <Link
             href={localePath(locale, "/contact")}
+            prefetch={false}
             className="btn-primary hidden !px-5 !py-2.5 md:inline-flex"
           >
             {dict.nav.cta}

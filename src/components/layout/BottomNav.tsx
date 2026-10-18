@@ -52,6 +52,7 @@ export function BottomNav() {
             <li key={href} className="flex-1">
               <Link
                 href={localePath(locale, href)}
+                prefetch={false}
                 aria-current={active ? "page" : undefined}
                 className={`relative flex min-h-14 flex-col items-center justify-center gap-1 px-2 py-1.5 text-xs transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange ${
                   active ? "text-orange" : "text-fg-muted"

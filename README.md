@@ -1,44 +1,76 @@
-# kurmanaly-web
+# kurmanaly.com
 
-Production-ready art portfolio and digital gallery for **kurmanaly.com**, built with Next.js 14 App Router, TypeScript, Tailwind CSS, and Framer Motion.
+Сайт-портфолио дизайнера интерьеров Малики Курманалиевой. Каждый проект показан как история в три шага: **мудборд → чертежи → визуализации**. Два языка: русский (по умолчанию) и английский.
 
-## Features
+Стек: Next.js 14 (App Router), TypeScript, Tailwind CSS, Framer Motion, Lenis.
 
-- Responsive header with **kurmanaly.com** branding and navigation (Works, Exhibitions, Statement, Inquire)
-- Theme toggle (dark / light) and animated category filter bar
-- Hero with featured artwork, entrance animations, and collection CTA
-- Filterable gallery (Oil, Digital, Graphics, Mixed Media) with lightbox details
-- Virtual studio tour with room switching and color modes
-- Artist statement / biography tabs and exhibition timeline
-- Inquiry form for purchases and commissions
-- Mobile bottom navigation
-
-## Getting started
+## Запуск
 
 ```bash
 npm install
-npm run dev
+npm run dev      # http://localhost:3000
+npm run build    # production-сборка
+npm run start    # запуск собранного сайта
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+## Структура
 
-## Scripts
+| Путь | Что там |
+| --- | --- |
+| `src/app/[locale]/` | Страницы (`/`, `projects`, `projects/[slug]`, `services`, `about`, `contact`) и общий layout |
+| `src/app/sitemap.ts`, `robots.ts`, `icon.svg`, `apple-icon.png` | SEO и иконки |
+| `src/middleware.ts` | Языковая маршрутизация: русский на корне, английский под `/en` |
+| `src/i18n/` | Словари `ru.ts` / `en.ts`, настройки языков, метаданные страниц |
+| `src/data/projects.ts` | Проекты (картинки, цифры и переводы текстов) |
+| `src/data/site.ts` | Контакты и каналы связи |
+| `src/components/` | Компоненты: `layout`, `sections`, `project`, `forms`, `motion`, `seo` |
+| `public/projects/<slug>/` | Картинки проекта: `cover.webp`, `drawings/`, `renders/` |
+| `public/portfolio.pdf` | Скачиваемое портфолио |
+| `docs/PROMPT.txt` | Текстовое описание проекта (бриф) |
+| `CHECKLIST.md` | Что исправить, добавить, убрать |
 
-| Command        | Description              |
-| -------------- | ------------------------ |
-| `npm run dev`  | Development server       |
-| `npm run build`| Production build         |
-| `npm run start`| Serve production build   |
-| `npm run lint` | ESLint                   |
+## Языки
 
-## Project structure
+- `/` и `/projects` — русский, `/en` и `/en/projects` — английский. Префикс `/ru/...` перенаправляется на адрес без префикса.
+- Тексты интерфейса лежат в `src/i18n/dictionaries/ru.ts` и `en.ts`. Английский словарь типизирован по русскому: если пропустить ключ, проект не соберётся.
+- У каждой страницы есть `canonical` и `hreflang`, в `sitemap.xml` указаны альтернативы.
 
-```
-src/
-  app/           # App Router pages and global styles
-  components/    # Header, footer, gallery, sections
-  data/          # Mock artworks, exhibitions, studio rooms
-  lib/           # Types and shared utilities
-```
+## Как добавить проект
 
-Artwork images use Unsplash placeholders configured in `next.config.mjs`. Replace with your own assets for production.
+1. Положите изображения в `public/projects/<slug>/` (WebP): `cover.webp`, `drawings/NN.webp`, `renders/NN.webp`.
+2. Добавьте объект в массив `sources` в `src/data/projects.ts`: slug, год, площадь, тип, список листов и рендеров, **тексты на русском и английском** (`copy.ru`, `copy.en`).
+3. Мудборд: добавьте поле `moodboard: [{ src, width, height }, …]` в объект проекта, и секция «Мудборд» появится сама. Пока его нет, секция скрыта.
+4. Когда проектов станет четыре и больше, на странице проектов автоматически появятся фильтры по стилю и городу.
+
+Перед публикацией чертежей проверьте штамп: адреса и номера квартир клиентов лучше закрасить (для первого проекта это уже сделано).
+
+## Контакты и форма
+
+Контакты настраиваются в `src/data/site.ts`:
+
+- `email` и `instagramHandle` уже заполнены.
+- `telegramHandle` (без `@`) и `whatsappNumber` (международный формат без плюса) пока пустые. Когда вы их заполните, каналы появятся на сайте, в форме и в плавающей кнопке на телефоне.
+
+Форма на странице контактов **ничего не отправляет и не хранит**. Это конструктор заявки: клиент заполняет бриф, сайт собирает готовое сообщение и открывает выбранный канал (Telegram и WhatsApp с подставленным текстом, почта с темой и текстом, Instagram с копированием текста в буфер).
+
+## SEO и аналитика
+
+- Метаданные, Open Graph (`public/og.jpg`), `sitemap.xml`, `robots.txt`, иконки.
+- Структурированные данные schema.org: сайт и автор на главной, `FAQPage` на странице услуг, `CreativeWork` и хлебные крошки на страницах проектов.
+- Аналитика: Vercel Web Analytics (без cookie). Начнёт собирать данные после деплоя на Vercel, локально запрос к `/_vercel/insights/script.js` отвечает 404, это нормально.
+
+## Деплой на Vercel
+
+1. На [vercel.com](https://vercel.com) выберите **Add New → Project** и импортируйте репозиторий `AuxioDev/kurmanaly-web`. Настройки менять не нужно: Next.js определится автоматически.
+2. После первого деплоя откройте **Settings → Domains**, добавьте `kurmanaly.com` и `www.kurmanaly.com`.
+3. Добавьте у регистратора домена DNS-записи, которые покажет Vercel (обычно `A` для корня и `CNAME` для `www`).
+4. Включите **Analytics** в панели проекта, чтобы начали приходить данные.
+
+Каждый пуш в `main` деплоится автоматически.
+
+## Доступность и движение
+
+- Все интерактивные элементы не меньше 44 px, видимый фокус, подписи для кнопок-иконок.
+- Настройка системы «уменьшить движение» отключает анимации (бесконечные и смещения).
+- Полноэкранный просмотр чертежей: увеличение, листание стрелками, клавиатурой и свайпом.

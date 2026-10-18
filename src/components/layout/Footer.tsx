@@ -34,6 +34,7 @@ export function Footer({ locale }: { locale: Locale }) {
                 <li key={link.href}>
                   <Link
                     href={localePath(locale, link.href)}
+                    prefetch={false}
                     className="tap text-fg-soft transition-colors duration-300 hover:text-orange"
                   >
                     {link.label}
@@ -58,6 +59,15 @@ export function Footer({ locale }: { locale: Locale }) {
                   </a>
                 </li>
               ))}
+              <li>
+                <a
+                  href="/portfolio.pdf"
+                  download
+                  className="tap text-fg-soft transition-colors duration-300 hover:text-orange"
+                >
+                  {dict.about.portfolio}
+                </a>
+              </li>
             </ul>
           </div>
         </div>

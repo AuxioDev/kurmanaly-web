@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import { CtaSection } from "@/components/sections/CtaSection";
 import { ProcessSection } from "@/components/sections/ProcessSection";
 import { ServicesSection } from "@/components/sections/ServicesSection";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getDictionary } from "@/i18n/dictionaries";
 import { pageMetadata } from "@/i18n/metadata";
 import { requireLocale } from "@/i18n/params";
+import { faqStructuredData } from "@/lib/structured-data";
 
 interface PageProps {
   params: { locale: string };
@@ -27,6 +29,7 @@ export default function ServicesPage({ params }: PageProps) {
 
   return (
     <>
+      <JsonLd data={faqStructuredData(t.faq)} />
       <section className="container-page pt-10 sm:pt-16">
         <p className="eyebrow">{t.eyebrow}</p>
         <h1 className="mt-3 text-5xl sm:text-7xl">

@@ -1,10 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Jost } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { notFound } from "next/navigation";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { BottomNav } from "@/components/layout/BottomNav";
+import { FloatingContact } from "@/components/layout/FloatingContact";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
 import { siteConfig } from "@/data/site";
@@ -78,9 +80,11 @@ export default function LocaleLayout({ children, params }: LayoutProps) {
               <main className="pt-16 sm:pt-20">{children}</main>
               <Footer locale={locale} />
               <BottomNav />
+              <FloatingContact />
             </SmoothScrollProvider>
           </MotionProvider>
         </I18nProvider>
+        <Analytics />
       </body>
     </html>
   );
