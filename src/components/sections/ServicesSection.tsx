@@ -1,21 +1,27 @@
 import Link from "next/link";
 import { RevealItem, SectionReveal } from "@/components/motion/SectionReveal";
-import { servicePackages } from "@/data/services";
+import { localePath, type Locale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
 
-export function ServicesSection({ showHeading = true }: { showHeading?: boolean }) {
+interface ServicesSectionProps {
+  locale: Locale;
+  showHeading?: boolean;
+}
+
+export function ServicesSection({ locale, showHeading = true }: ServicesSectionProps) {
+  const t = getDictionary(locale).services;
+
   return (
     <SectionReveal className="container-page py-16 sm:py-24">
       {showHeading && (
         <RevealItem>
-          <p className="eyebrow">Услуги</p>
-          <h2 className="mt-2 max-w-2xl text-4xl sm:text-5xl">
-            Выберите объём работы под вашу задачу
-          </h2>
+          <p className="eyebrow">{t.eyebrow}</p>
+          <h2 className="mt-2 max-w-2xl text-4xl sm:text-5xl">{t.title}</h2>
         </RevealItem>
       )}
 
       <ul className={`grid gap-6 md:grid-cols-2 lg:grid-cols-3 ${showHeading ? "mt-12" : ""}`}>
-        {servicePackages.map((pkg) => (
+        {t.packages.map((pkg) => (
           <li
             key={pkg.id}
             className={pkg.highlighted ? "md:col-span-2 lg:col-span-1" : undefined}
@@ -28,7 +34,7 @@ export function ServicesSection({ showHeading = true }: { showHeading?: boolean 
               >
                 {pkg.highlighted && (
                   <p className="absolute left-6 top-0 -translate-y-1/2 bg-gradient-to-r from-red-deep to-red px-2.5 py-1 text-xs text-white sm:left-8">
-                    Самый полный
+                    {t.badge}
                   </p>
                 )}
                 <h3 className="text-2xl sm:text-3xl">{pkg.name}</h3>
@@ -43,28 +49,26 @@ export function ServicesSection({ showHeading = true }: { showHeading?: boolean 
                   ))}
                 </ul>
 
-                <dl className="mt-8 space-y-1 border-t border-line pt-4 text-sm">
-                  <div className="flex justify-between gap-4">
-                    <dt className="text-fg-muted">Срок</dt>
-                    <dd>{pkg.duration}</dd>
-                  </div>
-                  <div className="flex justify-between gap-4">
-                    <dt className="text-fg-muted">Стоимость</dt>
-                    <dd className="text-right">{pkg.priceNote}</dd>
-                  </div>
-                </dl>
+                <p className="mt-8 flex justify-between gap-4 border-t border-line pt-4 text-sm">
+                  <span className="text-fg-muted">{t.term}</span>
+                  <span>{pkg.duration}</span>
+                </p>
 
                 <Link
-                  href={`/contact?package=${pkg.id}`}
+                  href={`${localePath(locale, "/contact")}?package=${pkg.id}`}
                   className={`mt-6 ${pkg.highlighted ? "btn-primary" : "btn-outline"}`}
                 >
-                  Обсудить
+                  {t.cta}
                 </Link>
               </article>
             </RevealItem>
           </li>
         ))}
       </ul>
+
+      <RevealItem>
+        <p className="mt-8 max-w-2xl text-sm leading-relaxed text-fg-muted">{t.priceNote}</p>
+      </RevealItem>
     </SectionReveal>
   );
 }

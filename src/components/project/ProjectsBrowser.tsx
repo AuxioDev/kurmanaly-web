@@ -3,12 +3,13 @@
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ProjectCard } from "@/components/project/ProjectCard";
-import { projectTypeLabels } from "@/data/projects";
+import { useI18n } from "@/i18n/I18nProvider";
 import type { Project, ProjectType } from "@/lib/types";
 
 type Filter = ProjectType | "all";
 
 export function ProjectsBrowser({ projects }: { projects: Project[] }) {
+  const { locale, dict } = useI18n();
   const [active, setActive] = useState<Filter>("all");
 
   const filters = useMemo<Filter[]>(
@@ -20,7 +21,7 @@ export function ProjectsBrowser({ projects }: { projects: Project[] }) {
   return (
     <div>
       {filters.length > 2 && (
-        <div className="flex flex-wrap gap-2" role="group" aria-label="Фильтр проектов по типу">
+        <div className="flex flex-wrap gap-2" role="group" aria-label={dict.projects.filterLabel}>
           {filters.map((f) => {
             const isActive = active === f;
             return (
@@ -35,7 +36,7 @@ export function ProjectsBrowser({ projects }: { projects: Project[] }) {
                     : "border-line text-fg-muted hover:border-orange hover:text-fg"
                 }`}
               >
-                {projectTypeLabels[f]}
+                {dict.projects.types[f]}
               </button>
             );
           })}
@@ -53,7 +54,7 @@ export function ProjectsBrowser({ projects }: { projects: Project[] }) {
               exit={{ opacity: 0, y: 12 }}
               transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
             >
-              <ProjectCard project={project} priority={i === 0} />
+              <ProjectCard project={project} locale={locale} priority={i === 0} />
             </motion.li>
           ))}
         </AnimatePresence>

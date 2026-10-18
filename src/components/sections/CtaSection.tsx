@@ -1,13 +1,17 @@
 import Link from "next/link";
 import { RevealItem, SectionReveal } from "@/components/motion/SectionReveal";
+import { localePath, type Locale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
 
-export function CtaSection({
-  title = "Расскажите о вашей квартире",
-  text = "Опишите объект и задачу, и я отвечу в течение двух рабочих дней с предложением по формату работы.",
-}: {
+interface CtaSectionProps {
+  locale: Locale;
   title?: string;
   text?: string;
-}) {
+}
+
+export function CtaSection({ locale, title, text }: CtaSectionProps) {
+  const t = getDictionary(locale).cta;
+
   return (
     <SectionReveal className="container-page py-16 sm:py-24">
       <RevealItem>
@@ -22,10 +26,10 @@ export function CtaSection({
           />
           <div className="rule-gradient absolute inset-x-0 top-0" />
           <div className="relative">
-            <h2 className="max-w-2xl text-4xl sm:text-5xl">{title}</h2>
-            <p className="mt-4 max-w-xl leading-relaxed text-fg-soft">{text}</p>
-            <Link href="/contact" className="btn-primary mt-8">
-              Обсудить проект
+            <h2 className="max-w-2xl text-4xl sm:text-5xl">{title ?? t.title}</h2>
+            <p className="mt-4 max-w-xl leading-relaxed text-fg-soft">{text ?? t.text}</p>
+            <Link href={localePath(locale, "/contact")} className="btn-primary mt-8">
+              {t.button}
             </Link>
           </div>
         </div>

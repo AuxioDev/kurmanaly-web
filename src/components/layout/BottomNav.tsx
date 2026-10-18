@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { navLinks } from "@/data/site";
+import { localePath, stripLocale } from "@/i18n/config";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const icons: Record<string, React.ReactNode> = {
   "/projects": (
@@ -36,19 +37,21 @@ const icons: Record<string, React.ReactNode> = {
 
 export function BottomNav() {
   const pathname = usePathname();
+  const path = stripLocale(pathname);
+  const { locale, dict } = useI18n();
 
   return (
     <nav
       className="fixed inset-x-0 bottom-0 z-50 border-t border-line bg-canvas/95 backdrop-blur-md md:hidden"
-      aria-label="Мобильная навигация"
+      aria-label={dict.nav.mobileLabel}
     >
       <ul className="flex items-stretch justify-around pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2">
-        {navLinks.map(({ href, label }) => {
-          const active = pathname === href || pathname.startsWith(`${href}/`);
+        {dict.nav.links.map(({ href, label }) => {
+          const active = path === href || path.startsWith(`${href}/`);
           return (
             <li key={href} className="flex-1">
               <Link
-                href={href}
+                href={localePath(locale, href)}
                 aria-current={active ? "page" : undefined}
                 className={`relative flex min-h-14 flex-col items-center justify-center gap-1 px-2 py-1.5 text-xs transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange ${
                   active ? "text-orange" : "text-fg-muted"

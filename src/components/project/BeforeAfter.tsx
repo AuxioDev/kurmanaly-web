@@ -2,6 +2,8 @@
 
 import { useId, useState } from "react";
 import { FadeImage } from "@/components/motion/FadeImage";
+import { fmt } from "@/i18n/config";
+import { useI18n } from "@/i18n/I18nProvider";
 import type { Drawing } from "@/lib/types";
 
 interface BeforeAfterProps {
@@ -10,6 +12,8 @@ interface BeforeAfterProps {
 }
 
 export function BeforeAfter({ before, after }: BeforeAfterProps) {
+  const { dict } = useI18n();
+  const t = dict.project;
   const [position, setPosition] = useState(50);
   const id = useId();
 
@@ -57,10 +61,10 @@ export function BeforeAfter({ before, after }: BeforeAfterProps) {
         </div>
 
         <span className="pointer-events-none absolute left-3 top-3 bg-canvas/90 px-2.5 py-1 text-xs">
-          До: {before.title}
+          {fmt(t.before, { title: before.title })}
         </span>
         <span className="pointer-events-none absolute right-3 top-3 bg-canvas/90 px-2.5 py-1 text-xs">
-          После: {after.title}
+          {fmt(t.after, { title: after.title })}
         </span>
 
         <input
@@ -70,12 +74,12 @@ export function BeforeAfter({ before, after }: BeforeAfterProps) {
           max={100}
           value={position}
           onChange={(e) => setPosition(Number(e.target.value))}
-          aria-label="Сравнить обмерный план и план перепланировки"
+          aria-label={t.compareLabel}
           className="absolute inset-0 h-full w-full cursor-ew-resize touch-pan-y opacity-0"
         />
       </div>
       <p className="mt-3 text-xs text-fg-muted">
-        Потяните ползунок, чтобы сравнить исходную планировку и результат.
+        {t.compareHint}
       </p>
     </div>
   );

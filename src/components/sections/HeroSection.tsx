@@ -1,41 +1,43 @@
 import Link from "next/link";
 import { ParallaxCover } from "@/components/motion/ParallaxCover";
-import { siteConfig } from "@/data/site";
+import { localePath, type Locale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
 import type { Project } from "@/lib/types";
 
-export function HeroSection({ featured }: { featured: Project }) {
+export function HeroSection({ featured, locale }: { featured: Project; locale: Locale }) {
+  const dict = getDictionary(locale);
+  const t = dict.hero;
+
   return (
     <section className="container-page pb-16 pt-10 sm:pb-24 sm:pt-16">
       <div className="grid items-end gap-10 lg:grid-cols-[1.1fr_1fr]">
         <div>
-          <p className="eyebrow">Дизайн интерьеров · Бишкек · Москва</p>
+          <p className="eyebrow">{t.eyebrow}</p>
           <h1 className="mt-5 text-5xl leading-[1.02] sm:text-7xl lg:text-[5.5rem]">
-            Интерьер
+            {t.titleLine1}
             <br />
-            от идеи
+            {t.titleLine2}
             <br />
-            <span className="text-gradient">до чертежа</span>
+            <span className="text-gradient">{t.titleAccent}</span>
           </h1>
         </div>
         <div className="max-w-md lg:pb-3">
           <p className="leading-relaxed text-fg-soft">
-            {siteConfig.designer}. Сначала мудборд, потом чертежи, затем
-            визуализация. Вы видите весь путь проекта и понимаете, как он
-            станет реальностью.
+            {dict.brand.designer}. {t.text}
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/projects" className="btn-primary">
-              Смотреть проекты
+            <Link href={localePath(locale, "/projects")} className="btn-primary">
+              {t.primary}
             </Link>
-            <Link href="/contact" className="btn-outline">
-              Обсудить проект
+            <Link href={localePath(locale, "/contact")} className="btn-outline">
+              {t.secondary}
             </Link>
           </div>
         </div>
       </div>
 
       <Link
-        href={`/projects/${featured.slug}`}
+        href={localePath(locale, `/projects/${featured.slug}`)}
         className="group relative mt-12 block overflow-hidden bg-sunken focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange sm:mt-14"
       >
         <div className="relative aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9]">
@@ -55,12 +57,12 @@ export function HeroSection({ featured }: { featured: Project }) {
         <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 bg-gradient-to-t from-black/75 via-black/30 to-transparent p-4 pt-16 text-white sm:p-6 sm:pt-20">
           <div>
             <p className="text-xs uppercase tracking-[0.18em] text-orange-soft">
-              Избранный проект
+              {t.featured}
             </p>
             <p className="mt-1 font-display text-2xl sm:text-3xl">{featured.title}</p>
           </div>
           <span className="hidden items-center gap-2 text-sm sm:inline-flex">
-            {featured.city} · {featured.area} м²
+            {featured.city} · {featured.area} {dict.project.areaUnit}
             <span
               aria-hidden
               className="transition-transform duration-500 ease-out group-hover:translate-x-1.5"

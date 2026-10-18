@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { modalBackdropVariants } from "@/lib/motion";
+import { useI18n } from "@/i18n/I18nProvider";
 import type { ImageAsset } from "@/lib/types";
 
 export interface LightboxItem extends ImageAsset {
@@ -27,6 +28,8 @@ export function ImageLightbox({
   onClose,
   onIndexChange,
 }: ImageLightboxProps) {
+  const { dict } = useI18n();
+  const t = dict.lightbox;
   const [zoomIdx, setZoomIdx] = useState(0);
   const [mounted, setMounted] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -101,14 +104,14 @@ export function ImageLightbox({
                 {(index ?? 0) + 1} / {items.length}
               </span>
               <IconButton
-                label="Уменьшить"
+                label={t.zoomOut}
                 disabled={zoomIdx === 0}
                 onClick={() => setZoomIdx((z) => Math.max(z - 1, 0))}
               >
                 <path d="M5 12h14" />
               </IconButton>
               <IconButton
-                label="Увеличить"
+                label={t.zoomIn}
                 disabled={zoomIdx === ZOOM_LEVELS.length - 1}
                 onClick={() =>
                   setZoomIdx((z) => Math.min(z + 1, ZOOM_LEVELS.length - 1))
@@ -120,7 +123,7 @@ export function ImageLightbox({
                 ref={closeRef}
                 type="button"
                 onClick={onClose}
-                aria-label="Закрыть"
+                aria-label={t.close}
                 className="ml-1 flex h-11 w-11 items-center justify-center border border-line text-fg transition-colors duration-300 hover:border-orange hover:text-orange focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -188,8 +191,8 @@ export function ImageLightbox({
 
             {items.length > 1 && (
               <>
-                <NavArrow side="left" onClick={() => go(-1)} />
-                <NavArrow side="right" onClick={() => go(1)} />
+                <NavArrow side="left" label={t.prev} onClick={() => go(-1)} />
+                <NavArrow side="right" label={t.next} onClick={() => go(1)} />
               </>
             )}
           </div>
@@ -237,16 +240,18 @@ function IconButton({
 
 function NavArrow({
   side,
+  label,
   onClick,
 }: {
   side: "left" | "right";
+  label: string;
   onClick: () => void;
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      aria-label={side === "left" ? "Предыдущее" : "Следующее"}
+      aria-label={label}
       className={`absolute top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center border border-line bg-canvas/90 text-fg backdrop-blur hover:border-orange focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange ${
         side === "left" ? "left-3" : "right-3"
       }`}

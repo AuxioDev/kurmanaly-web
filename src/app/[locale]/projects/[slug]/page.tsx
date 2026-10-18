@@ -4,40 +4,60 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProjectStory } from "@/components/project/ProjectStory";
 import { CtaSection } from "@/components/sections/CtaSection";
-import { getProject, projects, projectTypeLabels } from "@/data/projects";
+import { getProject, projectSlugs } from "@/data/projects";
+import { fmt, localePath, locales } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
+import { pageMetadata } from "@/i18n/metadata";
+import { requireLocale } from "@/i18n/params";
 
 interface PageProps {
-  params: { slug: string };
+  params: { locale: string; slug: string };
 }
 
 export function generateStaticParams() {
-  return projects.map((p) => ({ slug: p.slug }));
+  return locales.flatMap((locale) => projectSlugs.map((slug) => ({ locale, slug })));
 }
 
 export function generateMetadata({ params }: PageProps): Metadata {
-  const project = getProject(params.slug);
+  const locale = requireLocale(params.locale);
+  const project = getProject(params.slug, locale);
   if (!project) return {};
-  return {
+  const dict = getDictionary(locale);
+  const metadata = pageMetadata({
+    locale,
+    path: `/projects/${project.slug}`,
     title: project.title,
     description: project.summary,
+    image: {
+      url: project.cover.src,
+      width: project.cover.width,
+      height: project.cover.height,
+      alt: project.cover.alt,
+    },
+  });
+  return {
+    ...metadata,
     openGraph: {
-      title: `${project.title} — дизайн интерьера`,
-      description: project.summary,
-      images: [{ url: project.cover.src, width: project.cover.width, height: project.cover.height }],
+      ...metadata.openGraph,
+      title: fmt(dict.project.ogTitle, { title: project.title }),
     },
   };
 }
 
 export default function ProjectPage({ params }: PageProps) {
-  const project = getProject(params.slug);
+  const locale = requireLocale(params.locale);
+  const project = getProject(params.slug, locale);
   if (!project) notFound();
 
+  const dict = getDictionary(locale);
+  const t = dict.project;
+
   const facts = [
-    { label: "Город", value: project.city },
-    { label: "Площадь", value: `${project.area} м²` },
-    { label: "Год", value: String(project.year) },
-    { label: "Тип", value: projectTypeLabels[project.type] },
-    { label: "Стиль", value: project.style },
+    { label: t.facts.city, value: project.city },
+    { label: t.facts.area, value: `${project.area} ${t.areaUnit}` },
+    { label: t.facts.year, value: String(project.year) },
+    { label: t.facts.type, value: dict.projects.types[project.type] },
+    { label: t.facts.style, value: project.style },
   ];
 
   return (
@@ -45,10 +65,10 @@ export default function ProjectPage({ params }: PageProps) {
       <article>
         <header className="container-page pt-10 sm:pt-16">
           <Link
-            href="/projects"
+            href={localePath(locale, "/projects")}
             className="tap text-sm text-fg-muted transition-colors duration-300 hover:text-orange"
           >
-            ← Все проекты
+            {t.back}
           </Link>
           <h1 className="mt-6 text-5xl leading-[1.02] sm:text-7xl">{project.title}</h1>
 
@@ -89,10 +109,7 @@ export default function ProjectPage({ params }: PageProps) {
         </div>
       </article>
 
-      <CtaSection
-        title="Хотите такой же проект?"
-        text="Расскажите о вашем объекте. Я подберу формат работы и назову сроки."
-      />
+      <CtaSection locale={locale} title={t.ctaTitle} text={t.ctaText} />
     </>
   );
 }

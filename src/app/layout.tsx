@@ -1,78 +1,9 @@
-import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Jost } from "next/font/google";
-import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { BottomNav } from "@/components/layout/BottomNav";
-import { MotionProvider } from "@/components/motion/MotionProvider";
-import { ScrollProgress } from "@/components/motion/ScrollProgress";
-import { siteConfig } from "@/data/site";
 import "./globals.css";
 
-const display = Cormorant_Garamond({
-  subsets: ["latin", "cyrillic"],
-  weight: ["400", "500", "600"],
-  variable: "--font-display",
-  display: "swap",
-});
-
-const body = Jost({
-  subsets: ["latin", "cyrillic"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-body",
-  display: "swap",
-});
-
-export const metadata: Metadata = {
-  title: {
-    default: `${siteConfig.designer} — дизайн интерьеров`,
-    template: `%s — ${siteConfig.designer}`,
-  },
-  description: siteConfig.description,
-  metadataBase: new URL(siteConfig.url),
-  openGraph: {
-    title: `${siteConfig.designer} — ${siteConfig.tagline}`,
-    description: siteConfig.description,
-    url: siteConfig.url,
-    siteName: "kurmanaly.com",
-    locale: "ru_RU",
-    type: "website",
-  },
-};
-
-export const viewport: Viewport = {
-  themeColor: "#0B0908",
-  width: "device-width",
-  initialScale: 1,
-  viewportFit: "cover",
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="ru">
-      <head>
-        {/* Без JS картинки не должны оставаться прозрачными */}
-        <noscript>
-          <style>{`[data-fade]{opacity:1!important}`}</style>
-        </noscript>
-      </head>
-      <body
-        className={`${display.variable} ${body.variable} min-h-screen bg-canvas text-fg`}
-      >
-        <MotionProvider>
-          <SmoothScrollProvider>
-            <ScrollProgress />
-            <Header />
-            <main className="pt-16 sm:pt-20">{children}</main>
-            <Footer />
-            <BottomNav />
-          </SmoothScrollProvider>
-        </MotionProvider>
-      </body>
-    </html>
-  );
+/**
+ * Корневой layout только пробрасывает children: <html> и <body> (с нужным lang)
+ * рендерит layout сегмента [locale], а глобальный not-found задаёт свои.
+ */
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return children;
 }

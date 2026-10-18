@@ -1,16 +1,19 @@
 import Link from "next/link";
 import { FadeImage } from "@/components/motion/FadeImage";
+import { localePath, type Locale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
 import type { Project } from "@/lib/types";
 
 interface ProjectCardProps {
   project: Project;
+  locale: Locale;
   priority?: boolean;
 }
 
-export function ProjectCard({ project, priority }: ProjectCardProps) {
+export function ProjectCard({ project, locale, priority }: ProjectCardProps) {
   return (
     <Link
-      href={`/projects/${project.slug}`}
+      href={localePath(locale, `/projects/${project.slug}`)}
       className="group block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange"
     >
       <div className="card-glow skeleton relative aspect-[16/10] overflow-hidden">
@@ -35,7 +38,7 @@ export function ProjectCard({ project, priority }: ProjectCardProps) {
             {project.title}
           </h3>
           <p className="mt-1 text-sm text-fg-muted">
-            {project.city} · {project.area} м² · {project.year}
+            {project.city} · {project.area} {getDictionary(locale).project.areaUnit} · {project.year}
           </p>
         </div>
         <span className="mt-1 text-right text-xs uppercase tracking-[0.14em] text-fg-muted transition-colors duration-300 group-hover:text-fg">

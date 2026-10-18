@@ -6,6 +6,8 @@ import { FadeImage } from "@/components/motion/FadeImage";
 import { RevealItem, SectionReveal } from "@/components/motion/SectionReveal";
 import { BeforeAfter } from "@/components/project/BeforeAfter";
 import { ImageLightbox, type LightboxItem } from "@/components/project/ImageLightbox";
+import { fmt } from "@/i18n/config";
+import { useI18n } from "@/i18n/I18nProvider";
 import { luxuryEase } from "@/lib/motion";
 import type { Project } from "@/lib/types";
 
@@ -21,17 +23,19 @@ const reveal = (i: number) => ({
 });
 
 export function ProjectStory({ project }: { project: Project }) {
+  const { dict } = useI18n();
+  const t = dict.project;
   const hasMoodboard = project.moodboard.length > 0;
   const steps = [
-    ...(hasMoodboard ? [{ id: "moodboard", label: "Мудборд" }] : []),
-    { id: "drawings", label: "Чертежи" },
-    { id: "renders", label: "Визуализации" },
+    ...(hasMoodboard ? [{ id: "moodboard", label: t.steps.moodboard }] : []),
+    { id: "drawings", label: t.steps.drawings },
+    { id: "renders", label: t.steps.renders },
   ];
 
   return (
     <div>
       <nav
-        aria-label="Разделы проекта"
+        aria-label={t.navLabel}
         className="sticky top-14 z-30 border-y border-line bg-canvas/90 backdrop-blur-md"
       >
         <ol className="container-page flex gap-6 overflow-x-auto text-sm">
@@ -79,9 +83,11 @@ function SectionHeading({
 }
 
 function MoodboardSection({ project, number }: { project: Project; number: string }) {
+  const { dict } = useI18n();
+  const t = dict.project;
   const items = useMemo<LightboxItem[]>(
-    () => project.moodboard.map((m, i) => ({ ...m, title: `Мудборд ${i + 1}` })),
-    [project.moodboard],
+    () => project.moodboard.map((m, i) => ({ ...m, title: fmt(t.moodboardItem, { n: i + 1 }) })),
+    [project.moodboard, t.moodboardItem],
   );
   const [open, setOpen] = useState<number | null>(null);
 
@@ -90,8 +96,8 @@ function MoodboardSection({ project, number }: { project: Project; number: strin
       <SectionHeading
         id="moodboard"
         number={number}
-        title="Мудборд"
-        lead="Образ интерьера до чертежей: настроение, палитра и материалы."
+        title={t.steps.moodboard}
+        lead={t.moodboardLead}
       />
       <div className="mt-10 columns-1 gap-4 sm:columns-2 lg:columns-3">
         {items.map((m, i) => (
@@ -125,6 +131,8 @@ function MoodboardSection({ project, number }: { project: Project; number: strin
 }
 
 function DrawingsSection({ project, number }: { project: Project; number: string }) {
+  const { dict } = useI18n();
+  const t = dict.project;
   const items = useMemo<LightboxItem[]>(
     () =>
       project.drawings.map((d) => ({
@@ -133,9 +141,9 @@ function DrawingsSection({ project, number }: { project: Project; number: string
         height: d.height,
         alt: d.alt,
         title: d.title,
-        caption: `Лист ${d.sheet}`,
+        caption: fmt(t.sheet, { sheet: d.sheet }),
       })),
-    [project.drawings],
+    [project.drawings, t.sheet],
   );
   const [open, setOpen] = useState<number | null>(null);
   const [expanded, setExpanded] = useState(false);
@@ -157,8 +165,8 @@ function DrawingsSection({ project, number }: { project: Project; number: string
         <SectionHeading
           id="drawings"
           number={number}
-          title="Чертежи"
-          lead={`Рабочая документация: ${project.drawings.length} листов, по которым ведётся ремонт. Нажмите на лист, чтобы открыть его и увеличить.`}
+          title={t.steps.drawings}
+          lead={fmt(t.drawingsLead, { n: project.drawings.length })}
         />
 
         {project.beforeAfter && (
@@ -204,7 +212,7 @@ function DrawingsSection({ project, number }: { project: Project; number: string
               aria-expanded={expanded}
               className="btn-outline"
             >
-              {expanded ? "Свернуть" : `Показать все ${items.length} листов`}
+              {expanded ? t.collapse : fmt(t.showAll, { n: items.length })}
             </button>
           </div>
         )}
@@ -220,6 +228,8 @@ function DrawingsSection({ project, number }: { project: Project; number: string
 }
 
 function RendersSection({ project, number }: { project: Project; number: string }) {
+  const { dict } = useI18n();
+  const t = dict.project;
   const items = useMemo<LightboxItem[]>(
     () =>
       project.renders.map((r) => ({
@@ -242,8 +252,8 @@ function RendersSection({ project, number }: { project: Project; number: string 
       <SectionHeading
         id="renders"
         number={number}
-        title="Визуализации"
-        lead="Так будет выглядеть результат: свет, материалы и детали каждой комнаты."
+        title={t.steps.renders}
+        lead={t.rendersLead}
       />
 
       <div className="mt-12 space-y-14">

@@ -40,24 +40,3 @@ export interface Project {
     after: Drawing;
   };
 }
-
-export interface ServicePackage {
-  id: string;
-  name: string;
-  tagline: string;
-  includes: string[];
-  duration: string;
-  priceNote: string;
-  highlighted?: boolean;
-}
-
-export interface ProcessStep {
-  id: string;
-  title: string;
-  description: string;
-}
-
-export interface NavLink {
-  href: string;
-  label: string;
-}

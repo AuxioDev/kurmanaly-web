@@ -1,12 +1,18 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { siteConfig } from "@/data/site";
+import { localePath } from "@/i18n/config";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export function Logo({ className = "" }: { className?: string }) {
+  const { locale, dict } = useI18n();
+
   return (
     <Link
-      href="/"
-      aria-label={`${siteConfig.name} — на главную`}
+      href={localePath(locale, "/")}
+      aria-label={`${siteConfig.name} — ${dict.nav.homeLabel}`}
       className={`flex min-h-11 items-center gap-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange ${className}`}
     >
       <Image

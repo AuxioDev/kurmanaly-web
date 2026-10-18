@@ -3,13 +3,17 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
+import { LanguageSwitch } from "@/components/layout/LanguageSwitch";
 import { useSmoothScroll } from "@/components/providers/SmoothScrollProvider";
 import { Logo } from "@/components/ui/Logo";
-import { navLinks } from "@/data/site";
+import { localePath, stripLocale } from "@/i18n/config";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export function Header() {
   const pathname = usePathname();
+  const path = stripLocale(pathname);
   const { isCompact } = useSmoothScroll();
+  const { locale, dict } = useI18n();
 
   return (
     <motion.header
@@ -21,19 +25,19 @@ export function Header() {
       }`}
     >
       <div
-        className={`container-page flex items-center justify-between transition-[height] duration-500 ease-out ${
+        className={`container-page flex items-center justify-between gap-3 transition-[height] duration-500 ease-out ${
           isCompact ? "h-14" : "h-16 sm:h-20"
         }`}
       >
         <Logo />
 
-        <nav className="hidden items-center gap-6 md:flex lg:gap-8" aria-label="Основная навигация">
-          {navLinks.map((link) => {
-            const active = pathname === link.href || pathname.startsWith(`${link.href}/`);
+        <nav className="hidden items-center gap-6 md:flex lg:gap-8" aria-label={dict.nav.primaryLabel}>
+          {dict.nav.links.map((link) => {
+            const active = path === link.href || path.startsWith(`${link.href}/`);
             return (
               <Link
                 key={link.href}
-                href={link.href}
+                href={localePath(locale, link.href)}
                 aria-current={active ? "page" : undefined}
                 className={`relative py-3 text-sm transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange ${
                   active ? "text-fg" : "text-fg-muted hover:text-fg"
@@ -52,9 +56,15 @@ export function Header() {
           })}
         </nav>
 
-        <Link href="/contact" className="btn-primary hidden !px-5 !py-2.5 md:inline-flex">
-          Обсудить проект
-        </Link>
+        <div className="flex items-center gap-3">
+          <LanguageSwitch />
+          <Link
+            href={localePath(locale, "/contact")}
+            className="btn-primary hidden !px-5 !py-2.5 md:inline-flex"
+          >
+            {dict.nav.cta}
+          </Link>
+        </div>
       </div>
 
       <div

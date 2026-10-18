@@ -1,7 +1,10 @@
 import { RevealItem, SectionReveal } from "@/components/motion/SectionReveal";
-import { processSteps } from "@/data/services";
+import type { Locale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
 
-export function ProcessSection({ className = "" }: { className?: string }) {
+export function ProcessSection({ locale, className = "" }: { locale: Locale; className?: string }) {
+  const t = getDictionary(locale).process;
+
   return (
     <SectionReveal
       className={`relative overflow-hidden border-y border-line bg-sunken py-16 sm:py-24 ${className}`}
@@ -12,14 +15,12 @@ export function ProcessSection({ className = "" }: { className?: string }) {
       />
       <div className="container-page relative">
         <RevealItem>
-          <p className="eyebrow">Как я работаю</p>
-          <h2 className="mt-2 max-w-2xl text-4xl sm:text-5xl">
-            Три шага, которые видно на каждом проекте
-          </h2>
+          <p className="eyebrow">{t.eyebrow}</p>
+          <h2 className="mt-2 max-w-2xl text-4xl sm:text-5xl">{t.title}</h2>
         </RevealItem>
 
         <ol className="mt-12 grid gap-px bg-line md:grid-cols-3">
-          {processSteps.map((step, i) => (
+          {t.steps.map((step, i) => (
             <li key={step.id} className="group relative overflow-hidden bg-sunken">
               <div
                 aria-hidden
