@@ -26,7 +26,7 @@ export const en: Dictionary = {
     primaryLabel: "Main navigation",
     mobileLabel: "Mobile navigation",
     homeLabel: "home",
-    language: { label: "Switch language to Русский", short: "RU" },
+    language: { label: "Change language" },
   },
   hero: {
     eyebrow: "Interior design · Bishkek · Moscow",
@@ -121,6 +121,7 @@ export const en: Dictionary = {
     sections: "Sections",
     sectionsLabel: "Site sections",
     contact: "Contact",
+    language: "Language",
   },
   home: {
     moreEyebrow: "Projects",

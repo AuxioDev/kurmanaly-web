@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getChannels, siteConfig } from "@/data/site";
 import { localePath, type Locale } from "@/i18n/config";
+import { LanguageLinks } from "@/components/layout/LanguageLinks";
 import { getDictionary } from "@/i18n/dictionaries";
 
 export function Footer({ locale }: { locale: Locale }) {
@@ -25,6 +26,8 @@ export function Footer({ locale }: { locale: Locale }) {
             <p className="mt-3 max-w-sm text-sm leading-relaxed text-fg-muted">
               {dict.brand.designer}. {dict.brand.tagline}. {dict.brand.footerLine}
             </p>
+            <p className="label mt-6">{dict.footer.language}</p>
+            <LanguageLinks />
           </div>
 
           <nav aria-label={dict.footer.sectionsLabel}>

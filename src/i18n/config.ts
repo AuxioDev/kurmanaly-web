@@ -1,10 +1,21 @@
-export const locales = ["ru", "en"] as const;
+export const locales = ["ru", "en", "ky", "az"] as const;
 export type Locale = (typeof locales)[number];
 
 /** Русский живёт на корне (/projects), остальные языки под префиксом (/en/projects). */
 export const defaultLocale: Locale = "ru";
 
 export const siteUrl = "https://kurmanaly.com";
+
+/**
+ * Названия языков для переключателя. Код ky (ISO 639-1) нужен для hreflang и URL, а на кнопке
+ * показываем привычное «KG».
+ */
+export const localeMeta: Record<Locale, { native: string; short: string }> = {
+  ru: { native: "Русский", short: "RU" },
+  en: { native: "English", short: "EN" },
+  ky: { native: "Кыргызча", short: "KG" },
+  az: { native: "Azərbaycanca", short: "AZ" },
+};
 
 export function isLocale(value: string): value is Locale {
   return (locales as readonly string[]).includes(value);
@@ -19,7 +30,7 @@ export function localePath(locale: Locale, path = "/"): string {
 
 /** Убирает языковой префикс: "/en/projects" → "/projects". */
 export function stripLocale(pathname: string): string {
-  const stripped = pathname.replace(/^\/(ru|en)(?=\/|$)/, "");
+  const stripped = pathname.replace(new RegExp(`^/(${locales.join("|")})(?=/|$)`), "");
   return stripped === "" ? "/" : stripped;
 }
 

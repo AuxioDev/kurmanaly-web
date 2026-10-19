@@ -24,7 +24,7 @@ export const ru = {
     primaryLabel: "Основная навигация",
     mobileLabel: "Мобильная навигация",
     homeLabel: "на главную",
-    language: { label: "Сменить язык на English", short: "EN" },
+    language: { label: "Сменить язык" },
   },
   hero: {
     eyebrow: "Дизайн интерьеров · Бишкек · Москва",
@@ -119,6 +119,7 @@ export const ru = {
     sections: "Разделы",
     sectionsLabel: "Разделы сайта",
     contact: "Связаться",
+    language: "Язык",
   },
   home: {
     moreEyebrow: "Проекты",

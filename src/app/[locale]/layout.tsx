@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Jost } from "next/font/google";
+import { Cormorant_Garamond, Onest } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { notFound } from "next/navigation";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
@@ -14,15 +14,16 @@ import { isLocale, locales, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { I18nProvider } from "@/i18n/I18nProvider";
 
+// Подмножества с расширениями нужны для кыргызского (ң, ү, ө) и азербайджанского (ə, ı, ş, ğ)
 const display = Cormorant_Garamond({
-  subsets: ["latin", "cyrillic"],
+  subsets: ["latin", "latin-ext", "cyrillic", "cyrillic-ext"],
   weight: ["400", "500", "600"],
   variable: "--font-display",
   display: "swap",
 });
 
-const body = Jost({
-  subsets: ["latin", "cyrillic"],
+const body = Onest({
+  subsets: ["latin", "latin-ext", "cyrillic", "cyrillic-ext"],
   weight: ["300", "400", "500", "600"],
   variable: "--font-body",
   display: "swap",
